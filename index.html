@@ -7,130 +7,235 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: #000; color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    body { background: #fff; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; border-bottom: 1px solid #1a1a1a; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); }
-    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-weight: 900; font-size: 17px; letter-spacing: 3px; }
-    .nav-links { display: flex; gap: 40px; }
-    .nav-links a { font-size: 13px; color: #666; transition: color 0.2s; }
-    .nav-links a:hover { color: #fff; }
-    .nav-cta { font-size: 13px; border: 1px solid #fff; padding: 8px 20px; transition: all 0.2s; }
-    .nav-cta:hover { background: #fff; color: #000; }
-    section { border-bottom: 1px solid #1a1a1a; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; }
-    #hero .container { padding-top: 60px; padding-bottom: 60px; width: 100%; }
-    .eyebrow { font-size: 12px; color: #666; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 32px; }
-    h1 { font-size: clamp(48px, 10vw, 110px); font-weight: 900; line-height: 0.95; letter-spacing: -3px; }
-    .hero-sub { margin-top: 32px; max-width: 500px; font-size: 18px; color: #888; line-height: 1.7; }
-    .btn-row { margin-top: 48px; display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn-primary { background: #fff; color: #000; font-weight: 700; padding: 16px 32px; font-size: 13px; letter-spacing: 1px; transition: background 0.2s; }
-    .btn-primary:hover { background: #e0e0e0; }
-    .btn-outline { border: 1px solid #333; color: #fff; padding: 16px 32px; font-size: 13px; letter-spacing: 1px; transition: border-color 0.2s; }
-    .btn-outline:hover { border-color: #fff; }
-    .section-label { font-size: 11px; color: #666; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 24px; }
-    h2 { font-size: clamp(36px, 5vw, 56px); font-weight: 900; line-height: 1.1; }
-    #features .container { padding: 120px 24px; }
-    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #1a1a1a; margin-top: 64px; }
-    .feat-card { background: #000; padding: 40px; }
-    .feat-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
-    .feat-desc { font-size: 13px; color: #555; line-height: 1.7; }
-    #how { background: #fff; color: #000; }
-    #how .container { padding: 120px 24px; }
-    #how .section-label { color: #999; }
-    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #ddd; margin-top: 64px; }
-    .step { background: #fff; padding: 48px; }
-    .step-num { font-size: 60px; font-weight: 900; color: #ddd; line-height: 1; }
-    .step-title { font-size: 20px; font-weight: 800; margin: 16px 0 12px; }
-    .step-desc { font-size: 13px; color: #666; line-height: 1.7; }
-    #cta { border-bottom: none; }
-    #cta .container { padding: 120px 24px; text-align: center; }
-    #cta h2 { font-size: clamp(48px, 9vw, 100px); letter-spacing: -3px; }
-    #cta p { color: #666; font-size: 17px; max-width: 440px; margin: 24px auto 0; line-height: 1.7; }
-    #cta .btn-primary { display: inline-block; margin-top: 48px; padding: 20px 48px; font-size: 14px; }
-    footer { border-top: 1px solid #1a1a1a; padding: 60px 24px; }
-    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: start; }
-    .footer-name { font-weight: 900; font-size: 17px; letter-spacing: 3px; }
-    .footer-sub { font-size: 13px; color: #444; margin-top: 4px; }
-    .footer-link { font-size: 13px; color: #444; }
-    .footer-link:hover { color: #fff; }
-    .footer-bottom { max-width: 1100px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid #111; font-size: 11px; color: #333; }
-    @media (max-width: 768px) {
+    ::selection { background: #000; color: #fff; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #fff; border-bottom: 1px solid #000; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; }
+    .nav-logo { font-size: 13px; font-weight: 900; letter-spacing: 4px; }
+    .nav-links { display: flex; gap: 48px; }
+    .nav-links a { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #888; transition: color 0.2s; }
+    .nav-links a:hover { color: #000; }
+    .nav-cta { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; border: 1.5px solid #000; padding: 9px 24px; transition: all 0.2s; }
+    .nav-cta:hover { background: #000; color: #fff; }
+    section { border-bottom: 1px solid #000; }
+    .sec-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #999; margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+    .sec-label::before { content: ''; display: block; width: 32px; height: 1px; background: #999; }
+    h2 { font-size: clamp(36px, 4vw, 54px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; }
+    .btn-black { background: #000; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 18px 36px; display: inline-block; transition: background 0.2s; }
+    .btn-black:hover { background: #222; }
+    .btn-border { border: 1.5px solid #000; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 18px 36px; display: inline-block; transition: all 0.2s; }
+    .btn-border:hover { background: #000; color: #fff; }
+
+    /* HERO */
+    #hero { min-height: 100vh; padding-top: 60px; display: grid; grid-template-columns: 1fr 1fr; }
+    .hero-left { padding: 80px 40px; border-right: 1px solid #000; display: flex; flex-direction: column; justify-content: space-between; }
+    .hero-right { padding: 80px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: #999; }
+    h1 { font-size: clamp(56px, 9vw, 118px); font-weight: 900; line-height: 0.9; letter-spacing: -4px; margin-top: 32px; }
+    .hero-sub { font-size: 18px; color: #333; line-height: 1.7; max-width: 440px; }
+    .hero-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 48px; }
+
+    /* MOCK DASHBOARD */
+    .mock-dashboard { border: 1.5px solid #000; margin-top: 40px; overflow: hidden; }
+    .mock-header { background: #000; color: #fff; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .mock-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+    .mock-dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+    .mock-dots { display: flex; gap: 6px; }
+    .mock-body { padding: 24px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mock-stat { border: 1px solid #eee; padding: 16px; }
+    .mock-stat-val { font-size: 22px; font-weight: 900; }
+    .mock-stat-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
+    .mock-stat-change { font-size: 11px; color: #000; margin-top: 8px; font-weight: 700; }
+    .mock-table { margin: 0 20px 20px; border: 1px solid #eee; }
+    .mock-table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+    .mock-table-row:last-child { border-bottom: none; }
+    .mock-table-header { background: #f8f8f8; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; }
+    .up { color: #000; font-weight: 700; }
+    .down { color: #888; }
+
+    /* TICKER */
+    .ticker-bar { border-bottom: 1px solid #000; overflow: hidden; background: #000; color: #fff; padding: 14px 0; white-space: nowrap; }
+    .ticker-track { display: inline-block; animation: ticker 30s linear infinite; }
+    .ticker-item { display: inline-block; margin: 0 48px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+    .ticker-dot { color: #555; margin-right: 12px; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* FEATURES */
+    #features { border-bottom: 1px solid #000; }
+    .feat-header { padding: 80px 40px 48px; border-bottom: 1px solid #000; display: flex; justify-content: space-between; align-items: flex-end; }
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .feat-card { padding: 56px 40px; border-right: 1px solid #000; border-bottom: 1px solid #000; transition: background 0.2s; position: relative; overflow: hidden; }
+    .feat-card:nth-child(3), .feat-card:nth-child(6) { border-right: none; }
+    .feat-card:nth-child(4), .feat-card:nth-child(5), .feat-card:nth-child(6) { border-bottom: none; }
+    .feat-card:hover { background: #f8f8f8; }
+    .feat-num { font-size: 11px; letter-spacing: 4px; color: #ccc; font-weight: 700; margin-bottom: 28px; }
+    .feat-name { font-size: 20px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .feat-desc { font-size: 14px; color: #555; line-height: 1.8; }
+
+    /* HOW IT WORKS */
+    #how { background: #000; color: #fff; border-bottom: 1px solid #333; }
+    .how-header { padding: 80px 40px 48px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: flex-end; }
+    .how-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #666; margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+    .how-label::before { content: ''; display: block; width: 32px; height: 1px; background: #666; }
+    .how-h2 { font-size: clamp(36px, 4vw, 54px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .step { padding: 56px 40px; border-right: 1px solid #222; }
+    .step:last-child { border-right: none; }
+    .step-num { font-size: 72px; font-weight: 900; color: #222; line-height: 1; }
+    .step-title { font-size: 20px; font-weight: 900; margin: 20px 0 12px; }
+    .step-desc { font-size: 14px; color: #888; line-height: 1.8; }
+
+    /* CTA */
+    #cta { background: #fff; border-bottom: none; padding: 100px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; }
+    .cta-h { font-size: clamp(40px, 6vw, 80px); font-weight: 900; letter-spacing: -3px; line-height: 1; }
+    .cta-right { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+    .cta-sub { font-size: 16px; color: #555; max-width: 320px; line-height: 1.7; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid #000; padding: 60px 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; }
+    .footer-brand { font-size: 13px; font-weight: 900; letter-spacing: 4px; }
+    .footer-sub { font-size: 13px; color: #999; margin-top: 8px; line-height: 1.6; }
+    .footer-col-title { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #999; margin-bottom: 20px; }
+    .footer-col a { display: block; font-size: 13px; color: #555; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col a:hover { color: #000; }
+    .footer-bottom { margin-top: 60px; padding-top: 24px; border-top: 1px solid #eee; display: flex; justify-content: space-between; font-size: 11px; color: #bbb; }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
       .nav-links { display: none; }
-      .feat-grid, .steps-grid { grid-template-columns: 1fr; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { border-right: none; border-bottom: 1px solid #000; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .feat-card { border-right: none; border-bottom: 1px solid #000; }
+      .steps { grid-template-columns: 1fr; }
+      .step { border-right: none; border-bottom: 1px solid #222; }
+      #cta { flex-direction: column; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
     }
   </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-inner">
-    <span class="logo">OTJ.APP</span>
-    <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-    </div>
-    <a href="https://app.otj.app" class="nav-cta">Open App</a>
+  <span class="nav-logo">OTJ.APP</span>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
   </div>
+  <a href="https://app.otj.app" class="nav-cta">Open App</a>
 </nav>
 
 <section id="hero">
-  <div class="container">
-    <p class="eyebrow">Investor Portal</p>
-    <h1>Your fund.<br>Live. Always.</h1>
-    <p class="hero-sub">Every position, every trade, every AI signal — in real time. No monthly PDFs. No delayed reporting. Full transparency into your investment.</p>
-    <div class="btn-row">
-      <a href="https://app.otj.app" class="btn-primary">Open Dashboard</a>
-      <a href="#features" class="btn-outline">See Features</a>
+  <div class="hero-left">
+    <div>
+      <p class="hero-eyebrow">Investor Portal</p>
+      <h1>Your<br>fund.<br>Live.</h1>
+    </div>
+    <div class="hero-btns">
+      <a href="https://app.otj.app" class="btn-black">Open Dashboard →</a>
+      <a href="#features" class="btn-border">See Features</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <p class="hero-sub">Every position, every trade, every AI signal — updated every hour. No monthly PDFs. Full transparency into your investment, always.</p>
+    <div class="mock-dashboard">
+      <div class="mock-header">
+        <span class="mock-title">OTJ Investor Dashboard</span>
+        <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+      </div>
+      <div class="mock-body">
+        <div class="mock-stat"><p class="mock-stat-val">$12,480</p><p class="mock-stat-lbl">Portfolio Value</p><p class="mock-stat-change">↑ +$480 today</p></div>
+        <div class="mock-stat"><p class="mock-stat-val">+24.8%</p><p class="mock-stat-lbl">Total Return</p><p class="mock-stat-change">↑ Since inception</p></div>
+        <div class="mock-stat"><p class="mock-stat-val">68%</p><p class="mock-stat-lbl">Win Rate</p><p class="mock-stat-change">↑ Last 30 trades</p></div>
+        <div class="mock-stat"><p class="mock-stat-val">−3.2%</p><p class="mock-stat-lbl">Max Drawdown</p><p class="mock-stat-change">Well within limits</p></div>
+      </div>
+      <div class="mock-table">
+        <div class="mock-table-row mock-table-header"><span>Symbol</span><span>Strategy</span><span>PnL</span></div>
+        <div class="mock-table-row"><span>BTC/USDT</span><span>Momentum</span><span class="up">+$142</span></div>
+        <div class="mock-table-row"><span>ETH/USDT</span><span>Mean Rev.</span><span class="up">+$67</span></div>
+        <div class="mock-table-row"><span>SOL/USDT</span><span>Momentum</span><span class="down">−$23</span></div>
+      </div>
     </div>
   </div>
 </section>
 
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot">●</span>Live Portfolio Value</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Real-Time AI Signals</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Open Positions & PnL</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Full Trade History</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Crypto · Forex · Metals</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>African Currency Pairs</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Updated Every Hour</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Live Portfolio Value</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Real-Time AI Signals</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Open Positions & PnL</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Full Trade History</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Crypto · Forex · Metals</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>African Currency Pairs</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Updated Every Hour</span>
+  </div>
+</div>
+
 <section id="features">
-  <div class="container">
-    <p class="section-label">Features</p>
-    <h2>Everything you need.<br>Nothing you don't.</h2>
-    <div class="feat-grid">
-      <div class="feat-card"><h3 class="feat-title">Live Portfolio Value</h3><p class="feat-desc">Your total portfolio value, updated every hour when the AI engine runs. PnL in dollars and percent.</p></div>
-      <div class="feat-card"><h3 class="feat-title">Open Positions</h3><p class="feat-desc">Every open trade with entry price, current price, unrealized PnL, stop loss, and take profit in real time.</p></div>
-      <div class="feat-card"><h3 class="feat-title">AI Signal Feed</h3><p class="feat-desc">Every signal the engine generated — whether it acted or not. Full indicator values logged for transparency.</p></div>
-      <div class="feat-card"><h3 class="feat-title">Trade History</h3><p class="feat-desc">Complete closed trade log with realized PnL, exit reason, duration, and fees for every trade.</p></div>
-      <div class="feat-card"><h3 class="feat-title">Market Intelligence</h3><p class="feat-desc">Live crypto, forex, and precious metals prices. African currency pairs included: USD/KES, USD/ZAR.</p></div>
-      <div class="feat-card"><h3 class="feat-title">Performance Chart</h3><p class="feat-desc">30-day portfolio value chart with daily snapshots, drawdown tracking, and Sharpe ratio.</p></div>
-    </div>
+  <div class="feat-header">
+    <div><p class="sec-label">Features</p><h2>Everything you need.<br>Nothing you don't.</h2></div>
+    <p style="font-size:13px;color:#999;max-width:280px;line-height:1.7;">Six screens. All the data. Updated every hour when the AI engine completes its cycle.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card"><p class="feat-num">01</p><p class="feat-name">Live Portfolio Value</p><p class="feat-desc">Total portfolio value, available capital, total PnL in dollars and percent — updated every hour when the engine runs.</p></div>
+    <div class="feat-card"><p class="feat-num">02</p><p class="feat-name">Open Positions</p><p class="feat-desc">Every live trade with entry price, current price, unrealized PnL, stop loss, take profit, and strategy tag in real time.</p></div>
+    <div class="feat-card"><p class="feat-num">03</p><p class="feat-name">AI Signal Feed</p><p class="feat-desc">Every signal the engine generated — acted on or not. Full indicator values (EMA gap, RSI, MACD, Z-score) logged.</p></div>
+    <div class="feat-card"><p class="feat-num">04</p><p class="feat-name">Trade History</p><p class="feat-desc">Complete closed trade log. Realized PnL, exit reason (stop/target/timeout), fees, and duration for every trade.</p></div>
+    <div class="feat-card"><p class="feat-num">05</p><p class="feat-name">Market Intelligence</p><p class="feat-desc">Live crypto prices, global forex, precious metals, and African currency pairs: USD/KES, USD/ZAR, and more.</p></div>
+    <div class="feat-card"><p class="feat-num">06</p><p class="feat-name">Performance Chart</p><p class="feat-desc">30-day portfolio value chart, daily PnL, cumulative returns, drawdown tracking, win rate, and Sharpe ratio.</p></div>
   </div>
 </section>
 
 <section id="how">
-  <div class="container">
-    <p class="section-label">How it works</p>
-    <h2>Three steps.</h2>
-    <div class="steps-grid">
-      <div class="step"><p class="step-num">01</p><h3 class="step-title">Request access</h3><p class="step-desc">Email us at invest@otjcapital.com. We review your profile and send an invite within 24 hours.</p></div>
-      <div class="step"><p class="step-num">02</p><h3 class="step-title">Magic link login</h3><p class="step-desc">No passwords. Enter your email, tap the magic link we send, and you're in — instantly.</p></div>
-      <div class="step"><p class="step-num">03</p><h3 class="step-title">See your fund live</h3><p class="step-desc">Your dashboard loads in real time. Portfolio, positions, signals, market data — all live, all the time.</p></div>
-    </div>
+  <div class="how-header">
+    <div><p class="how-label">How it works</p><h2 class="how-h2">Three steps to full visibility.</h2></div>
+  </div>
+  <div class="steps">
+    <div class="step"><p class="step-num">01</p><p class="step-title">Request access</p><p class="step-desc">Email invest@otjcapital.com. We review your profile and send an invite within 24 hours.</p></div>
+    <div class="step"><p class="step-num">02</p><p class="step-title">Magic link login</p><p class="step-desc">No passwords ever. Enter your email, tap the magic link we send, you're in — instantly and securely.</p></div>
+    <div class="step"><p class="step-num">03</p><p class="step-title">See your fund live</p><p class="step-desc">Your full dashboard loads. Portfolio, positions, signals, market data — live, every single hour.</p></div>
   </div>
 </section>
 
 <section id="cta">
-  <div class="container">
-    <h2>Ready to invest?</h2>
-    <p>Join OTJ Capital investors and get full real-time visibility into Africa's first AI hedge fund.</p>
-    <a href="mailto:invest@otjcapital.com" class="btn-primary">Request Investor Access</a>
+  <p class="cta-h">Ready to<br>invest?</p>
+  <div class="cta-right">
+    <p class="cta-sub">Join OTJ Capital investors. Get full real-time visibility into Africa's first AI hedge fund.</p>
+    <a href="mailto:invest@otjcapital.com" class="btn-black">Request Investor Access →</a>
   </div>
 </section>
 
 <footer>
-  <div class="footer-inner">
+  <div class="footer-grid">
     <div>
-      <p class="footer-name">OTJ.APP</p>
-      <p class="footer-sub">Investor portal for OTJ Capital</p>
+      <p class="footer-brand">OTJ.APP</p>
+      <p class="footer-sub">Investor portal for OTJ Capital.<br>Live data. Full transparency.</p>
     </div>
-    <a href="https://otjcapital.com" class="footer-link">OTJ Capital →</a>
+    <div class="footer-col">
+      <p class="footer-col-title">Product</p>
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="https://app.otj.app">Open App</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">OTJ</p>
+      <a href="https://otj-capital.github.io/otjcapital-web/">OTJ Capital</a>
+      <a href="https://otj-capital.github.io/otjholdings-web/">OTJ Holdings</a>
+      <a href="https://otj-capital.github.io/otjfellowship-web/">Fellowship</a>
+    </div>
   </div>
-  <div class="footer-bottom">© 2026 OTJ Capital. All rights reserved.</div>
+  <div class="footer-bottom">
+    <span>© 2026 OTJ Capital. All rights reserved.</span>
+    <span>otj.app</span>
+  </div>
 </footer>
 
 </body>
