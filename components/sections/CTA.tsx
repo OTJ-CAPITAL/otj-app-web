@@ -6,7 +6,7 @@ export default function CTA() {
           Ready to invest?
         </h2>
         <p className="text-[#666] mt-6 text-lg max-w-lg mx-auto">
-          Join OTJ Capital investors and get full real-time visibility into Africa's first AI hedge fund.
+          Join OTJ Capital and get full real-time visibility into Africa's first AI-native hedge fund — trading crypto, forex, metals, and equities around the clock.
         </p>
         <a
           href="mailto:invest@otjcapital.com"

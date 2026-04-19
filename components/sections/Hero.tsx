@@ -8,7 +8,7 @@ export default function Hero() {
         </h1>
         <div className="mt-8 max-w-xl">
           <p className="text-[#888] text-xl leading-relaxed">
-            Every position, every trade, every AI signal — in real time. No monthly PDFs. No delayed reporting. Just full transparency into your investment.
+            Every position, every trade, every AI signal across crypto, forex, metals, and equities — in real time. No monthly PDFs. No delayed reporting. Just full transparency into your investment.
           </p>
         </div>
         <div className="mt-12 flex gap-4">
@@ -18,6 +18,19 @@ export default function Hero() {
           <a href="#features" className="inline-block border border-[#333] text-white px-8 py-4 text-sm tracking-wide hover:border-white transition-colors">
             See Features
           </a>
+        </div>
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-[#1a1a1a] pt-12">
+          {[
+            { label: 'Asset Classes',   value: '4' },
+            { label: 'Instruments',     value: '34' },
+            { label: 'Strategies Live', value: '42' },
+            { label: 'Updates',         value: 'Hourly' },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <p className="text-3xl font-bold text-white">{stat.value}</p>
+              <p className="text-[#444] text-sm mt-1">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,7 +1,19 @@
 const steps = [
-  { n: '01', title: 'Request access', desc: 'Email us at invest@otjcapital.com. We review your profile and send an invite.' },
-  { n: '02', title: 'Magic link login', desc: 'No passwords. Enter your email, tap the link we send, and you\'re in.' },
-  { n: '03', title: 'See your fund live', desc: 'Your dashboard loads in real time. Portfolio, positions, signals, market — all live.' },
+  {
+    n: '01',
+    title: 'Request access',
+    desc: 'Email us at invest@otjcapital.com. We review your investor profile and send a personal invite.',
+  },
+  {
+    n: '02',
+    title: 'Magic link login',
+    desc: 'No passwords. Enter your email, tap the link we send, and you\'re in. Works on desktop and mobile.',
+  },
+  {
+    n: '03',
+    title: 'See your fund live',
+    desc: 'Your dashboard loads in real time. Portfolio, positions across all 4 asset classes, AI signals, strategy registry, market prices — all live.',
+  },
 ]
 
 export default function HowItWorks() {
