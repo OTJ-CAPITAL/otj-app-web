@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OTJ Mobile App — Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #fff; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ::selection { background: #000; color: #fff; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #fff; border-bottom: 1px solid #000; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; }
+    .nav-logo { font-size: 13px; font-weight: 900; letter-spacing: 4px; }
+    .nav-back { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; border: 1.5px solid #000; padding: 8px 20px; transition: all 0.2s; }
+    .nav-back:hover { background: #000; color: #fff; }
+
+    /* HERO */
+    .demo-hero { padding: 120px 40px 80px; border-bottom: 1px solid #000; display: flex; justify-content: space-between; align-items: flex-end; }
+    .demo-eyebrow { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: #999; margin-bottom: 20px; }
+    .demo-title { font-size: clamp(48px, 7vw, 96px); font-weight: 900; letter-spacing: -4px; line-height: 0.95; }
+    .demo-sub { font-size: 16px; color: #555; max-width: 340px; line-height: 1.8; }
+
+    /* TICKER */
+    .ticker-bar { border-bottom: 1px solid #000; overflow: hidden; background: #000; color: #fff; padding: 14px 0; white-space: nowrap; }
+    .ticker-track { display: inline-block; animation: ticker 28s linear infinite; }
+    .ticker-item { display: inline-block; margin: 0 48px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+    .ticker-dot { color: #555; margin-right: 12px; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* SCREENS SECTION */
+    .screens-label { padding: 60px 40px 48px; border-bottom: 1px solid #000; display: flex; justify-content: space-between; align-items: flex-end; }
+    .sec-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #999; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
+    .sec-label::before { content: ''; display: block; width: 32px; height: 1px; background: #999; }
+
+    /* PHONES ROW */
+    .phones-row { display: flex; gap: 0; border-bottom: 1px solid #000; overflow-x: auto; }
+    .phone-wrap { flex: 1; min-width: 240px; padding: 48px 32px; border-right: 1px solid #000; display: flex; flex-direction: column; align-items: center; gap: 24px; transition: background 0.2s; }
+    .phone-wrap:last-child { border-right: none; }
+    .phone-wrap:hover { background: #fafafa; }
+    .phone-screen-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; text-align: center; }
+    .phone-screen-name { font-size: 16px; font-weight: 900; text-align: center; margin-top: 4px; }
+
+    /* PHONE FRAME */
+    .phone { width: 180px; height: 360px; border: 2.5px solid #000; border-radius: 28px; overflow: hidden; position: relative; background: #fff; box-shadow: 0 12px 40px rgba(0,0,0,0.1); flex-shrink: 0; }
+    .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 72px; height: 20px; background: #000; border-radius: 0 0 14px 14px; z-index: 10; }
+    .phone-content { padding: 28px 0 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* SCREEN: LOGIN */
+    .screen-login { padding: 20px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 12px; }
+    .s-logo { font-size: 22px; font-weight: 900; letter-spacing: 4px; }
+    .s-tagline { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #999; }
+    .s-input { width: 100%; border: 1px solid #ddd; padding: 8px 10px; font-size: 10px; color: #333; font-family: inherit; }
+    .s-btn { width: 100%; background: #000; color: #fff; border: none; padding: 9px; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-family: inherit; }
+    .s-note { font-size: 8px; color: #bbb; text-align: center; }
+
+    /* SCREEN: DASHBOARD */
+    .screen-dash { padding: 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+    .s-topbar { display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
+    .s-page-title { font-size: 11px; font-weight: 900; }
+    .s-time { font-size: 8px; color: #999; }
+    .s-kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .s-kpi { background: #f8f8f8; padding: 8px; border: 1px solid #eee; }
+    .s-kpi-lbl { font-size: 7px; letter-spacing: 1px; text-transform: uppercase; color: #999; }
+    .s-kpi-val { font-size: 14px; font-weight: 900; margin-top: 2px; letter-spacing: -0.5px; }
+    .s-kpi-chg { font-size: 7px; font-weight: 700; margin-top: 2px; }
+    .s-chart-mini { background: #f8f8f8; border: 1px solid #eee; padding: 8px; }
+    .s-chart-lbl { font-size: 7px; letter-spacing: 1px; text-transform: uppercase; color: #999; margin-bottom: 6px; }
+    .s-bars { display: flex; align-items: flex-end; gap: 2px; height: 36px; }
+    .s-bar { flex: 1; background: #000; border-radius: 1px 1px 0 0; }
+    .s-bar.dn { background: #e8e8e8; }
+
+    /* SCREEN: POSITIONS */
+    .screen-pos { padding: 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+    .s-pos-row { border: 1px solid #eee; padding: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .s-pos-sym { font-size: 11px; font-weight: 900; }
+    .s-pos-strat { font-size: 7px; background: #f0f0f0; padding: 2px 5px; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; display: inline-block; }
+    .s-pos-pnl { font-size: 11px; font-weight: 900; text-align: right; }
+    .s-pos-pct { font-size: 8px; color: #999; text-align: right; }
+
+    /* SCREEN: SIGNALS */
+    .screen-sig { padding: 8px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+    .s-sig-row { border: 1px solid #eee; padding: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .s-sig-sym { font-size: 10px; font-weight: 900; }
+    .s-sig-type { font-size: 7px; color: #888; margin-top: 2px; }
+    .s-sig-bar-wrap { width: 50px; }
+    .s-sig-val { font-size: 9px; font-weight: 700; text-align: right; }
+    .s-sig-track { height: 3px; background: #f0f0f0; margin-top: 4px; }
+    .s-sig-fill { height: 3px; background: #000; }
+
+    /* SCREEN: MARKET */
+    .screen-mkt { padding: 8px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+    .s-mkt-section { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #999; padding: 4px 0 2px; }
+    .s-mkt-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border: 1px solid #eee; }
+    .s-mkt-sym { font-size: 10px; font-weight: 900; }
+    .s-mkt-name { font-size: 7px; color: #999; margin-top: 1px; }
+    .s-mkt-price { font-size: 10px; font-weight: 700; text-align: right; }
+    .s-mkt-chg { font-size: 7px; text-align: right; }
+    .s-mkt-chg.up { color: #000; font-weight: 700; }
+    .s-mkt-chg.dn { color: #bbb; }
+
+    /* BOTTOM NAV (phone) */
+    .phone-bottom-nav { margin-top: auto; border-top: 1px solid #eee; display: flex; padding: 8px 0 4px; }
+    .phone-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 7px; color: #bbb; cursor: default; }
+    .phone-nav-item.active { color: #000; }
+    .phone-nav-icon { font-size: 14px; }
+
+    /* DETAIL SECTION */
+    .detail-section { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #000; }
+    .detail-left { padding: 80px 40px; border-right: 1px solid #000; }
+    .detail-right { padding: 80px 40px; }
+    .detail-title { font-size: clamp(32px, 4vw, 48px); font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; }
+    .detail-p { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 16px; }
+    .detail-list { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+    .detail-item { display: flex; gap: 16px; align-items: flex-start; }
+    .detail-num { font-size: 11px; letter-spacing: 3px; color: #ccc; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .detail-text { font-size: 14px; color: #333; line-height: 1.6; }
+    .detail-text strong { font-weight: 700; color: #000; }
+
+    /* CTA */
+    .demo-cta { padding: 100px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; border-bottom: 1px solid #000; background: #000; color: #fff; }
+    .cta-h { font-size: clamp(36px, 5vw, 64px); font-weight: 900; letter-spacing: -3px; line-height: 1; }
+    .btn-white { background: #fff; color: #000; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 18px 36px; display: inline-block; transition: background 0.2s; }
+    .btn-white:hover { background: #e0e0e0; }
+
+    /* FOOTER */
+    footer { padding: 60px 40px; border-top: none; }
+    .footer-bottom { display: flex; justify-content: space-between; font-size: 12px; color: #bbb; }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .demo-hero { flex-direction: column; gap: 24px; padding: 100px 20px 60px; }
+      .phones-row { flex-wrap: nowrap; padding-bottom: 20px; }
+      .detail-section { grid-template-columns: 1fr; }
+      .detail-left { border-right: none; border-bottom: 1px solid #000; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">OTJ MOBILE</span>
+  <a href="index.html" class="nav-back">← Back to App</a>
+</nav>
+
+<!-- HERO -->
+<div class="demo-hero">
+  <div>
+    <p class="demo-eyebrow">Mobile App · React Native · iOS & Android</p>
+    <h1 class="demo-title">OTJ in<br>your pocket.</h1>
+  </div>
+  <p class="demo-sub">Your full investor dashboard — portfolio value, positions, AI signals, and live market prices — on your phone. Anywhere. Always.</p>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot">●</span>Dashboard Screen</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Open Positions</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>AI Signal Feed</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Market Intelligence</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>iOS & Android</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>React Native · Expo</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Dashboard Screen</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Open Positions</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>AI Signal Feed</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>Market Intelligence</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>iOS & Android</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span>React Native · Expo</span>
+  </div>
+</div>
+
+<!-- SCREENS -->
+<div class="screens-label">
+  <div>
+    <p class="sec-label">App Screens</p>
+    <h2 style="font-size:clamp(32px,4vw,48px);font-weight:900;letter-spacing:-2px;">Five screens. All the data.</h2>
+  </div>
+  <p style="font-size:13px;color:#999;max-width:260px;line-height:1.7;">Every screen designed for speed. Real data. No clutter.</p>
+</div>
+
+<div class="phones-row">
+
+  <!-- SCREEN 1: LOGIN -->
+  <div class="phone-wrap">
+    <p class="phone-screen-label">01</p>
+    <p class="phone-screen-name">Login</p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-content">
+        <div class="screen-login">
+          <p class="s-logo">OTJ</p>
+          <p class="s-tagline">Investor Portal</p>
+          <div style="height:24px;"></div>
+          <input class="s-input" placeholder="your@email.com" readonly />
+          <button class="s-btn">Send Magic Link</button>
+          <p class="s-note">No password required.<br>Tap the link we email you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: DASHBOARD -->
+  <div class="phone-wrap">
+    <p class="phone-screen-label">02</p>
+    <p class="phone-screen-name">Dashboard</p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-content">
+        <div class="screen-dash">
+          <div class="s-topbar"><p class="s-page-title">Portfolio</p><p class="s-time">20:00 UTC</p></div>
+          <div class="s-kpi-grid">
+            <div class="s-kpi"><p class="s-kpi-lbl">Value</p><p class="s-kpi-val">$12,480</p><p class="s-kpi-chg">↑ +$480</p></div>
+            <div class="s-kpi"><p class="s-kpi-lbl">Return</p><p class="s-kpi-val">+24.8%</p><p class="s-kpi-chg">↑ All time</p></div>
+            <div class="s-kpi"><p class="s-kpi-lbl">Win Rate</p><p class="s-kpi-val">68%</p><p class="s-kpi-chg">30 trades</p></div>
+            <div class="s-kpi"><p class="s-kpi-lbl">Drawdown</p><p class="s-kpi-val">−3.2%</p><p class="s-kpi-chg">Max ever</p></div>
+          </div>
+          <div class="s-chart-mini">
+            <p class="s-chart-lbl">30-Day Performance</p>
+            <div class="s-bars">
+              <div class="s-bar" style="height:30%"></div>
+              <div class="s-bar" style="height:45%"></div>
+              <div class="s-bar dn" style="height:20%"></div>
+              <div class="s-bar" style="height:60%"></div>
+              <div class="s-bar" style="height:55%"></div>
+              <div class="s-bar dn" style="height:18%"></div>
+              <div class="s-bar" style="height:70%"></div>
+              <div class="s-bar" style="height:75%"></div>
+              <div class="s-bar" style="height:80%"></div>
+              <div class="s-bar" style="height:90%"></div>
+              <div class="s-bar dn" style="height:22%"></div>
+              <div class="s-bar" style="height:95%"></div>
+              <div class="s-bar" style="height:98%"></div>
+              <div class="s-bar" style="height:100%"></div>
+              <div class="s-bar" style="height:100%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-bottom-nav">
+          <div class="phone-nav-item active"><span class="phone-nav-icon">▦</span><span>Home</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">↗</span><span>Positions</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">⚡</span><span>Signals</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">◎</span><span>Market</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: POSITIONS -->
+  <div class="phone-wrap">
+    <p class="phone-screen-label">03</p>
+    <p class="phone-screen-name">Positions</p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-content">
+        <div class="screen-pos">
+          <div class="s-topbar"><p class="s-page-title">Open Positions</p><p class="s-time">3 active</p></div>
+          <div class="s-pos-row">
+            <div><p class="s-pos-sym">BTC/USDT</p><span class="s-pos-strat">Momentum</span></div>
+            <div><p class="s-pos-pnl">+$142</p><p class="s-pos-pct">+4.2%</p></div>
+          </div>
+          <div class="s-pos-row">
+            <div><p class="s-pos-sym">ETH/USDT</p><span class="s-pos-strat">Mean Rev.</span></div>
+            <div><p class="s-pos-pnl">+$67</p><p class="s-pos-pct">+2.1%</p></div>
+          </div>
+          <div class="s-pos-row">
+            <div><p class="s-pos-sym">SOL/USDT</p><span class="s-pos-strat">Momentum</span></div>
+            <div><p class="s-pos-pnl" style="color:#bbb;">−$23</p><p class="s-pos-pct">−2.5%</p></div>
+          </div>
+          <div style="padding:8px;background:#f8f8f8;border:1px solid #eee;margin-top:4px;">
+            <p style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:4px;">Unrealized PnL</p>
+            <p style="font-size:16px;font-weight:900;">+$186</p>
+            <p style="font-size:8px;color:#999;margin-top:2px;">Across all positions</p>
+          </div>
+        </div>
+        <div class="phone-bottom-nav">
+          <div class="phone-nav-item"><span class="phone-nav-icon">▦</span><span>Home</span></div>
+          <div class="phone-nav-item active"><span class="phone-nav-icon">↗</span><span>Positions</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">⚡</span><span>Signals</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">◎</span><span>Market</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: SIGNALS -->
+  <div class="phone-wrap">
+    <p class="phone-screen-label">04</p>
+    <p class="phone-screen-name">AI Signals</p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-content">
+        <div class="screen-sig">
+          <div class="s-topbar"><p class="s-page-title">Signal Feed</p><p class="s-time">Live</p></div>
+          <div class="s-sig-row">
+            <div><p class="s-sig-sym">BTC/USDT</p><p class="s-sig-type">Momentum · BUY · Acted</p></div>
+            <div class="s-sig-bar-wrap"><p class="s-sig-val">0.82</p><div class="s-sig-track"><div class="s-sig-fill" style="width:82%"></div></div></div>
+          </div>
+          <div class="s-sig-row">
+            <div><p class="s-sig-sym">ETH/USDT</p><p class="s-sig-type">Mean Rev. · BUY · Acted</p></div>
+            <div class="s-sig-bar-wrap"><p class="s-sig-val">0.71</p><div class="s-sig-track"><div class="s-sig-fill" style="width:71%"></div></div></div>
+          </div>
+          <div class="s-sig-row">
+            <div><p class="s-sig-sym">SOL/USDT</p><p class="s-sig-type">Momentum · HOLD</p></div>
+            <div class="s-sig-bar-wrap"><p class="s-sig-val" style="color:#bbb;">0.34</p><div class="s-sig-track"><div class="s-sig-fill" style="width:34%;background:#ddd"></div></div></div>
+          </div>
+          <div class="s-sig-row">
+            <div><p class="s-sig-sym">BNB/USDT</p><p class="s-sig-type">Mean Rev. · HOLD</p></div>
+            <div class="s-sig-bar-wrap"><p class="s-sig-val" style="color:#bbb;">0.29</p><div class="s-sig-track"><div class="s-sig-fill" style="width:29%;background:#ddd"></div></div></div>
+          </div>
+          <div class="s-sig-row">
+            <div><p class="s-sig-sym">ADA/USDT</p><p class="s-sig-type">Momentum · HOLD</p></div>
+            <div class="s-sig-bar-wrap"><p class="s-sig-val" style="color:#bbb;">0.21</p><div class="s-sig-track"><div class="s-sig-fill" style="width:21%;background:#ddd"></div></div></div>
+          </div>
+        </div>
+        <div class="phone-bottom-nav">
+          <div class="phone-nav-item"><span class="phone-nav-icon">▦</span><span>Home</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">↗</span><span>Positions</span></div>
+          <div class="phone-nav-item active"><span class="phone-nav-icon">⚡</span><span>Signals</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">◎</span><span>Market</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: MARKET -->
+  <div class="phone-wrap">
+    <p class="phone-screen-label">05</p>
+    <p class="phone-screen-name">Market</p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-content">
+        <div class="screen-mkt">
+          <div class="s-topbar"><p class="s-page-title">Market</p><p class="s-time">Live</p></div>
+          <p class="s-mkt-section">Crypto</p>
+          <div class="s-mkt-row">
+            <div><p class="s-mkt-sym">BTC</p><p class="s-mkt-name">Bitcoin</p></div>
+            <div><p class="s-mkt-price">$63,850</p><p class="s-mkt-chg up">+2.4%</p></div>
+          </div>
+          <div class="s-mkt-row">
+            <div><p class="s-mkt-sym">ETH</p><p class="s-mkt-name">Ethereum</p></div>
+            <div><p class="s-mkt-price">$3,105</p><p class="s-mkt-chg up">+1.8%</p></div>
+          </div>
+          <p class="s-mkt-section">African Forex</p>
+          <div class="s-mkt-row">
+            <div><p class="s-mkt-sym">KES</p><p class="s-mkt-name">USD/KES</p></div>
+            <div><p class="s-mkt-price">129.40</p><p class="s-mkt-chg dn">−0.1%</p></div>
+          </div>
+          <div class="s-mkt-row">
+            <div><p class="s-mkt-sym">ZAR</p><p class="s-mkt-name">USD/ZAR</p></div>
+            <div><p class="s-mkt-price">18.62</p><p class="s-mkt-chg up">+0.3%</p></div>
+          </div>
+          <p class="s-mkt-section">Metals</p>
+          <div class="s-mkt-row">
+            <div><p class="s-mkt-sym">XAU</p><p class="s-mkt-name">Gold</p></div>
+            <div><p class="s-mkt-price">$2,340</p><p class="s-mkt-chg up">+0.6%</p></div>
+          </div>
+        </div>
+        <div class="phone-bottom-nav">
+          <div class="phone-nav-item"><span class="phone-nav-icon">▦</span><span>Home</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">↗</span><span>Positions</span></div>
+          <div class="phone-nav-item"><span class="phone-nav-icon">⚡</span><span>Signals</span></div>
+          <div class="phone-nav-item active"><span class="phone-nav-icon">◎</span><span>Market</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DETAIL -->
+<div class="detail-section">
+  <div class="detail-left">
+    <p class="sec-label">Built With</p>
+    <h2 class="detail-title">React Native.<br>Expo. Supabase.</h2>
+    <p class="detail-p">The OTJ mobile app is built with the same technology stack as the best fintech apps in the world — fast, reliable, and cross-platform from a single codebase.</p>
+    <p class="detail-p">One codebase. Ships on both iOS and Android. Identical experience on every device.</p>
+  </div>
+  <div class="detail-right">
+    <p class="sec-label">Stack</p>
+    <div class="detail-list">
+      <div class="detail-item"><span class="detail-num">01</span><p class="detail-text"><strong>React Native + Expo</strong> — Cross-platform iOS & Android from one codebase</p></div>
+      <div class="detail-item"><span class="detail-num">02</span><p class="detail-text"><strong>Expo Router</strong> — File-based navigation, same feel as the web app</p></div>
+      <div class="detail-item"><span class="detail-num">03</span><p class="detail-text"><strong>Supabase Realtime</strong> — Live data pushed to the app the moment the engine updates</p></div>
+      <div class="detail-item"><span class="detail-num">04</span><p class="detail-text"><strong>NativeWind</strong> — Tailwind CSS for React Native, matching the web design system exactly</p></div>
+      <div class="detail-item"><span class="detail-num">05</span><p class="detail-text"><strong>Expo Notifications</strong> — Push alerts when a trade executes or the kill switch fires</p></div>
+      <div class="detail-item"><span class="detail-num">06</span><p class="detail-text"><strong>EAS Build</strong> — One-command deploy to App Store and Google Play</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="demo-cta">
+  <p class="cta-h">Invest. Then<br>watch it live.</p>
+  <a href="mailto:invest@otjcapital.com" class="btn-white">Request Access →</a>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <span>© 2026 OTJ Capital. All rights reserved.</span>
+    <a href="index.html" style="color:#bbb;">← Back to OTJ App</a>
+  </div>
+</footer>
+
+</body>
+</html>

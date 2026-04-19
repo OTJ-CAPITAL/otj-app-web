@@ -10,6 +10,8 @@
     body { background: #fff; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
     ::selection { background: #000; color: #fff; }
+
+    /* NAV */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #fff; border-bottom: 1px solid #000; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; }
     .nav-logo { font-size: 13px; font-weight: 900; letter-spacing: 4px; }
     .nav-links { display: flex; gap: 48px; }
@@ -31,27 +33,73 @@
     .hero-left { padding: 80px 40px; border-right: 1px solid #000; display: flex; flex-direction: column; justify-content: space-between; }
     .hero-right { padding: 80px 40px; display: flex; flex-direction: column; justify-content: space-between; }
     .hero-eyebrow { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: #999; }
-    h1 { font-size: clamp(56px, 9vw, 118px); font-weight: 900; line-height: 0.9; letter-spacing: -4px; margin-top: 32px; }
-    .hero-sub { font-size: 18px; color: #333; line-height: 1.7; max-width: 440px; }
+    h1 { font-size: clamp(44px, 6vw, 88px); font-weight: 900; line-height: 1; letter-spacing: -3px; margin-top: 32px; white-space: nowrap; }
+    .hero-sub { font-size: 17px; color: #444; line-height: 1.8; max-width: 420px; margin-top: 32px; }
     .hero-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 48px; }
+    .hero-proof { display: flex; flex-direction: column; gap: 12px; }
+    .proof-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: #555; }
+    .proof-dot { width: 6px; height: 6px; background: #000; border-radius: 50%; flex-shrink: 0; }
 
-    /* MOCK DASHBOARD */
-    .mock-dashboard { border: 1.5px solid #000; margin-top: 40px; overflow: hidden; }
-    .mock-header { background: #000; color: #fff; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
-    .mock-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
-    .mock-dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
-    .mock-dots { display: flex; gap: 6px; }
-    .mock-body { padding: 24px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .mock-stat { border: 1px solid #eee; padding: 16px; }
-    .mock-stat-val { font-size: 22px; font-weight: 900; }
-    .mock-stat-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
-    .mock-stat-change { font-size: 11px; color: #000; margin-top: 8px; font-weight: 700; }
-    .mock-table { margin: 0 20px 20px; border: 1px solid #eee; }
-    .mock-table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
-    .mock-table-row:last-child { border-bottom: none; }
-    .mock-table-header { background: #f8f8f8; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; }
-    .up { color: #000; font-weight: 700; }
-    .down { color: #888; }
+    /* DASHBOARD PREVIEW */
+    #dashboard-preview { background: #fafafa; padding: 0; border-bottom: 1px solid #000; overflow: hidden; }
+    .dash-label-bar { padding: 20px 40px; border-bottom: 1px solid #000; display: flex; align-items: center; justify-content: space-between; background: #fff; }
+    .dash-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #999; }
+    .dash-live { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .live-dot { width: 8px; height: 8px; background: #000; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* FULL DASHBOARD UI */
+    .dashboard-ui { display: grid; grid-template-columns: 220px 1fr; min-height: 600px; }
+    .dash-sidebar { border-right: 1px solid #e0e0e0; background: #fff; padding: 32px 0; }
+    .dash-logo { padding: 0 24px 32px; font-size: 14px; font-weight: 900; letter-spacing: 3px; border-bottom: 1px solid #eee; margin-bottom: 16px; }
+    .dash-nav-item { padding: 12px 24px; font-size: 13px; display: flex; align-items: center; gap: 12px; color: #888; cursor: default; transition: all 0.15s; }
+    .dash-nav-item:hover { background: #f5f5f5; color: #000; }
+    .dash-nav-item.active { background: #000; color: #fff; }
+    .dash-nav-icon { font-size: 15px; width: 20px; }
+    .dash-main { padding: 32px 40px; background: #fafafa; overflow: hidden; }
+    .dash-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .dash-title { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+    .dash-time { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #999; }
+
+    /* KPI CARDS */
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background: #fff; border: 1px solid #e8e8e8; padding: 24px; }
+    .kpi-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+    .kpi-val { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+    .kpi-change { font-size: 12px; font-weight: 700; margin-top: 6px; }
+    .kpi-change.up { color: #000; }
+    .kpi-change.neutral { color: #999; }
+
+    /* CHART */
+    .chart-section { display: grid; grid-template-columns: 1fr 280px; gap: 16px; margin-bottom: 24px; }
+    .chart-card { background: #fff; border: 1px solid #e8e8e8; padding: 24px; }
+    .chart-card-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .chart-tag { font-size: 10px; color: #999; font-weight: 400; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; }
+    .chart-bar { flex: 1; background: #000; border-radius: 2px 2px 0 0; transition: opacity 0.2s; }
+    .chart-bar:hover { opacity: 0.7; }
+    .chart-bar.down { background: #e0e0e0; }
+
+    /* POSITIONS TABLE */
+    .positions-card { background: #fff; border: 1px solid #e8e8e8; }
+    .positions-header { padding: 16px 20px; border-bottom: 1px solid #eee; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; }
+    .position-row { padding: 14px 20px; border-bottom: 1px solid #f5f5f5; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; font-size: 13px; align-items: center; transition: background 0.15s; }
+    .position-row:last-child { border-bottom: none; }
+    .position-row:hover { background: #fafafa; }
+    .pos-symbol { font-weight: 900; font-size: 14px; }
+    .pos-tag { font-size: 10px; background: #f0f0f0; padding: 3px 8px; letter-spacing: 1px; text-transform: uppercase; color: #555; display: inline-block; margin-top: 3px; }
+    .pos-pnl.up { font-weight: 700; }
+    .pos-pnl.down { color: #999; }
+
+    /* SIGNAL FEED */
+    .signal-mini { background: #fff; border: 1px solid #e8e8e8; }
+    .signal-item { padding: 14px 20px; border-bottom: 1px solid #f5f5f5; display: flex; justify-content: space-between; align-items: center; }
+    .signal-item:last-child { border-bottom: none; }
+    .signal-name { font-size: 13px; font-weight: 700; }
+    .signal-sub { font-size: 11px; color: #999; margin-top: 2px; }
+    .signal-strength { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+    .signal-bar-wrap { width: 80px; height: 4px; background: #f0f0f0; margin-top: 4px; }
+    .signal-bar { height: 4px; background: #000; }
 
     /* TICKER */
     .ticker-bar { border-bottom: 1px solid #000; overflow: hidden; background: #000; color: #fff; padding: 14px 0; white-space: nowrap; }
@@ -64,7 +112,7 @@
     #features { border-bottom: 1px solid #000; }
     .feat-header { padding: 80px 40px 48px; border-bottom: 1px solid #000; display: flex; justify-content: space-between; align-items: flex-end; }
     .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-    .feat-card { padding: 56px 40px; border-right: 1px solid #000; border-bottom: 1px solid #000; transition: background 0.2s; position: relative; overflow: hidden; }
+    .feat-card { padding: 56px 40px; border-right: 1px solid #000; border-bottom: 1px solid #000; transition: background 0.2s; }
     .feat-card:nth-child(3), .feat-card:nth-child(6) { border-right: none; }
     .feat-card:nth-child(4), .feat-card:nth-child(5), .feat-card:nth-child(6) { border-bottom: none; }
     .feat-card:hover { background: #f8f8f8; }
@@ -72,13 +120,13 @@
     .feat-name { font-size: 20px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.5px; }
     .feat-desc { font-size: 14px; color: #555; line-height: 1.8; }
 
-    /* HOW IT WORKS */
-    #how { background: #000; color: #fff; border-bottom: 1px solid #333; }
-    .how-header { padding: 80px 40px 48px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: flex-end; }
-    .how-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #666; margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+    /* HOW */
+    #how { background: #000; color: #fff; }
+    .how-inner { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .how-header-full { padding: 80px 40px 48px; border-bottom: 1px solid #222; }
+    .how-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #666; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
     .how-label::before { content: ''; display: block; width: 32px; height: 1px; background: #666; }
-    .how-h2 { font-size: clamp(36px, 4vw, 54px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; }
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .how-h2 { font-size: clamp(36px, 4vw, 54px); font-weight: 900; letter-spacing: -2px; }
     .step { padding: 56px 40px; border-right: 1px solid #222; }
     .step:last-child { border-right: none; }
     .step-num { font-size: 72px; font-weight: 900; color: #222; line-height: 1; }
@@ -86,7 +134,7 @@
     .step-desc { font-size: 14px; color: #888; line-height: 1.8; }
 
     /* CTA */
-    #cta { background: #fff; border-bottom: none; padding: 100px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; }
+    #cta { border-bottom: none; padding: 100px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; }
     .cta-h { font-size: clamp(40px, 6vw, 80px); font-weight: 900; letter-spacing: -3px; line-height: 1; }
     .cta-right { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
     .cta-sub { font-size: 16px; color: #555; max-width: 320px; line-height: 1.7; }
@@ -106,9 +154,13 @@
       .nav-links { display: none; }
       #hero { grid-template-columns: 1fr; }
       .hero-left { border-right: none; border-bottom: 1px solid #000; }
+      .dashboard-ui { grid-template-columns: 1fr; }
+      .dash-sidebar { display: none; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .chart-section { grid-template-columns: 1fr; }
       .feat-grid { grid-template-columns: 1fr; }
       .feat-card { border-right: none; border-bottom: 1px solid #000; }
-      .steps { grid-template-columns: 1fr; }
+      .how-inner { grid-template-columns: 1fr; }
       .step { border-right: none; border-bottom: 1px solid #222; }
       #cta { flex-direction: column; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -120,46 +172,203 @@
 <nav>
   <span class="nav-logo">OTJ.APP</span>
   <div class="nav-links">
+    <a href="#dashboard-preview">Dashboard</a>
     <a href="#features">Features</a>
     <a href="#how">How it works</a>
+    <a href="demo.html">Mobile App</a>
   </div>
-  <a href="https://app.otj.app" class="nav-cta">Open App</a>
+  <a href="mailto:invest@otjcapital.com" class="nav-cta">Get Access</a>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-left">
     <div>
       <p class="hero-eyebrow">Investor Portal</p>
-      <h1>Your<br>fund.<br>Live.</h1>
+      <h1>Your fund. Live.</h1>
+      <p class="hero-sub">Every position, every trade, every AI signal — updated every hour. No monthly PDFs. Full transparency into your investment, always.</p>
+      <div class="hero-btns">
+        <a href="#dashboard-preview" class="btn-black">See Dashboard →</a>
+        <a href="demo.html" class="btn-border">View Mobile App</a>
+      </div>
     </div>
-    <div class="hero-btns">
-      <a href="https://app.otj.app" class="btn-black">Open Dashboard →</a>
-      <a href="#features" class="btn-border">See Features</a>
+    <div class="hero-proof">
+      <div class="proof-row"><div class="proof-dot"></div><span>Updated every hour, automatically</span></div>
+      <div class="proof-row"><div class="proof-dot"></div><span>Every signal logged — acted on or not</span></div>
+      <div class="proof-row"><div class="proof-dot"></div><span>Full trade history with exit reasoning</span></div>
+      <div class="proof-row"><div class="proof-dot"></div><span>No passwords — magic link login</span></div>
     </div>
   </div>
   <div class="hero-right">
-    <p class="hero-sub">Every position, every trade, every AI signal — updated every hour. No monthly PDFs. Full transparency into your investment, always.</p>
-    <div class="mock-dashboard">
-      <div class="mock-header">
-        <span class="mock-title">OTJ Investor Dashboard</span>
-        <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+    <div>
+      <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#999;margin-bottom:24px;">Live portfolio snapshot</p>
+      <div style="display:flex;flex-direction:column;gap:1px;background:#000;">
+        <div style="background:#fff;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+          <div><p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#999;">Portfolio Value</p><p style="font-size:36px;font-weight:900;letter-spacing:-2px;margin-top:4px;">$12,480</p></div>
+          <div style="text-align:right;"><p style="font-size:12px;font-weight:700;">↑ +$480</p><p style="font-size:11px;color:#999;margin-top:2px;">Today</p></div>
+        </div>
+        <div style="background:#fff;padding:20px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;">
+          <div><p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;">Return</p><p style="font-size:20px;font-weight:900;margin-top:4px;">+24.8%</p></div>
+          <div><p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;">Win Rate</p><p style="font-size:20px;font-weight:900;margin-top:4px;">68%</p></div>
+          <div><p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;">Drawdown</p><p style="font-size:20px;font-weight:900;margin-top:4px;">−3.2%</p></div>
+        </div>
+        <div style="background:#fff;padding:0;">
+          <div style="padding:12px 24px;background:#f8f8f8;display:grid;grid-template-columns:1fr 1fr 1fr;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;">
+            <span>Symbol</span><span>Strategy</span><span>PnL</span>
+          </div>
+          <div style="padding:12px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;font-size:13px;border-bottom:1px solid #f0f0f0;">
+            <span style="font-weight:900;">BTC/USDT</span><span style="color:#888;">Momentum</span><span style="font-weight:700;">+$142</span>
+          </div>
+          <div style="padding:12px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;font-size:13px;border-bottom:1px solid #f0f0f0;">
+            <span style="font-weight:900;">ETH/USDT</span><span style="color:#888;">Mean Rev.</span><span style="font-weight:700;">+$67</span>
+          </div>
+          <div style="padding:12px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;font-size:13px;">
+            <span style="font-weight:900;">SOL/USDT</span><span style="color:#888;">Momentum</span><span style="color:#bbb;">−$23</span>
+          </div>
+        </div>
       </div>
-      <div class="mock-body">
-        <div class="mock-stat"><p class="mock-stat-val">$12,480</p><p class="mock-stat-lbl">Portfolio Value</p><p class="mock-stat-change">↑ +$480 today</p></div>
-        <div class="mock-stat"><p class="mock-stat-val">+24.8%</p><p class="mock-stat-lbl">Total Return</p><p class="mock-stat-change">↑ Since inception</p></div>
-        <div class="mock-stat"><p class="mock-stat-val">68%</p><p class="mock-stat-lbl">Win Rate</p><p class="mock-stat-change">↑ Last 30 trades</p></div>
-        <div class="mock-stat"><p class="mock-stat-val">−3.2%</p><p class="mock-stat-lbl">Max Drawdown</p><p class="mock-stat-change">Well within limits</p></div>
+    </div>
+    <p style="font-size:12px;color:#ccc;letter-spacing:1px;margin-top:16px;">Sample data for illustration purposes</p>
+  </div>
+</section>
+
+<!-- FULL DASHBOARD PREVIEW -->
+<section id="dashboard-preview">
+  <div class="dash-label-bar">
+    <span class="dash-label">Dashboard Preview</span>
+    <div class="dash-live"><div class="live-dot"></div>Live when you invest</div>
+  </div>
+  <div class="dashboard-ui">
+    <!-- Sidebar -->
+    <div class="dash-sidebar">
+      <div class="dash-logo">OTJ</div>
+      <div class="dash-nav-item active"><span class="dash-nav-icon">▦</span> Dashboard</div>
+      <div class="dash-nav-item"><span class="dash-nav-icon">↗</span> Positions</div>
+      <div class="dash-nav-item"><span class="dash-nav-icon">≡</span> Trades</div>
+      <div class="dash-nav-item"><span class="dash-nav-icon">⚡</span> Signals</div>
+      <div class="dash-nav-item"><span class="dash-nav-icon">◎</span> Market</div>
+      <div class="dash-nav-item"><span class="dash-nav-icon">⚙</span> Settings</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="dash-main">
+      <div class="dash-top">
+        <p class="dash-title">Portfolio Overview</p>
+        <p class="dash-time">Last updated: Today 20:00 UTC</p>
       </div>
-      <div class="mock-table">
-        <div class="mock-table-row mock-table-header"><span>Symbol</span><span>Strategy</span><span>PnL</span></div>
-        <div class="mock-table-row"><span>BTC/USDT</span><span>Momentum</span><span class="up">+$142</span></div>
-        <div class="mock-table-row"><span>ETH/USDT</span><span>Mean Rev.</span><span class="up">+$67</span></div>
-        <div class="mock-table-row"><span>SOL/USDT</span><span>Momentum</span><span class="down">−$23</span></div>
+
+      <!-- KPIs -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <p class="kpi-label">Portfolio Value</p>
+          <p class="kpi-val">$12,480</p>
+          <p class="kpi-change up">↑ +$480 today</p>
+        </div>
+        <div class="kpi-card">
+          <p class="kpi-label">Total Return</p>
+          <p class="kpi-val">+24.8%</p>
+          <p class="kpi-change up">↑ Since inception</p>
+        </div>
+        <div class="kpi-card">
+          <p class="kpi-label">Win Rate</p>
+          <p class="kpi-val">68%</p>
+          <p class="kpi-change neutral">Last 30 trades</p>
+        </div>
+        <div class="kpi-card">
+          <p class="kpi-label">Max Drawdown</p>
+          <p class="kpi-val">−3.2%</p>
+          <p class="kpi-change neutral">Well within limits</p>
+        </div>
+      </div>
+
+      <!-- Chart + Signals -->
+      <div class="chart-section">
+        <div class="chart-card">
+          <p class="chart-card-title">30-Day Portfolio Performance <span class="chart-tag">Daily snapshots</span></p>
+          <div class="chart-bars">
+            <div class="chart-bar" style="height:30%"></div>
+            <div class="chart-bar" style="height:42%"></div>
+            <div class="chart-bar down" style="height:20%"></div>
+            <div class="chart-bar" style="height:55%"></div>
+            <div class="chart-bar" style="height:48%"></div>
+            <div class="chart-bar down" style="height:15%"></div>
+            <div class="chart-bar" style="height:60%"></div>
+            <div class="chart-bar" style="height:65%"></div>
+            <div class="chart-bar" style="height:58%"></div>
+            <div class="chart-bar down" style="height:22%"></div>
+            <div class="chart-bar" style="height:70%"></div>
+            <div class="chart-bar" style="height:75%"></div>
+            <div class="chart-bar" style="height:72%"></div>
+            <div class="chart-bar" style="height:80%"></div>
+            <div class="chart-bar down" style="height:18%"></div>
+            <div class="chart-bar" style="height:85%"></div>
+            <div class="chart-bar" style="height:88%"></div>
+            <div class="chart-bar" style="height:82%"></div>
+            <div class="chart-bar" style="height:90%"></div>
+            <div class="chart-bar" style="height:95%"></div>
+            <div class="chart-bar down" style="height:25%"></div>
+            <div class="chart-bar" style="height:92%"></div>
+            <div class="chart-bar" style="height:96%"></div>
+            <div class="chart-bar" style="height:100%"></div>
+            <div class="chart-bar" style="height:98%"></div>
+            <div class="chart-bar down" style="height:20%"></div>
+            <div class="chart-bar" style="height:97%"></div>
+            <div class="chart-bar" style="height:99%"></div>
+            <div class="chart-bar" style="height:100%"></div>
+            <div class="chart-bar" style="height:100%"></div>
+          </div>
+        </div>
+        <div class="signal-mini">
+          <p style="padding:16px 20px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#999;border-bottom:1px solid #eee;">AI Signals</p>
+          <div class="signal-item">
+            <div><p class="signal-name">BTC/USDT</p><p class="signal-sub">Momentum · BUY</p></div>
+            <div style="text-align:right"><p class="signal-strength">0.82</p><div class="signal-bar-wrap"><div class="signal-bar" style="width:82%"></div></div></div>
+          </div>
+          <div class="signal-item">
+            <div><p class="signal-name">ETH/USDT</p><p class="signal-sub">Mean Rev. · BUY</p></div>
+            <div style="text-align:right"><p class="signal-strength">0.71</p><div class="signal-bar-wrap"><div class="signal-bar" style="width:71%"></div></div></div>
+          </div>
+          <div class="signal-item">
+            <div><p class="signal-name">SOL/USDT</p><p class="signal-sub">Momentum · HOLD</p></div>
+            <div style="text-align:right"><p class="signal-strength">0.34</p><div class="signal-bar-wrap"><div class="signal-bar" style="width:34%"></div></div></div>
+          </div>
+          <div class="signal-item">
+            <div><p class="signal-name">BNB/USDT</p><p class="signal-sub">Mean Rev. · HOLD</p></div>
+            <div style="text-align:right"><p class="signal-strength">0.29</p><div class="signal-bar-wrap"><div class="signal-bar" style="width:29%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Positions Table -->
+      <div class="positions-card">
+        <div class="positions-header"><span>Symbol</span><span>Strategy</span><span>Entry</span><span>Current</span><span>PnL</span></div>
+        <div class="position-row">
+          <div><p class="pos-symbol">BTC/USDT</p><span class="pos-tag">Momentum</span></div>
+          <span style="color:#888;font-size:13px;">EMA Cross</span>
+          <span>$61,240</span>
+          <span>$63,850</span>
+          <span class="pos-pnl up">+$142 (+4.2%)</span>
+        </div>
+        <div class="position-row">
+          <div><p class="pos-symbol">ETH/USDT</p><span class="pos-tag">Mean Rev.</span></div>
+          <span style="color:#888;font-size:13px;">BB Band</span>
+          <span>$2,980</span>
+          <span>$3,105</span>
+          <span class="pos-pnl up">+$67 (+2.1%)</span>
+        </div>
+        <div class="position-row">
+          <div><p class="pos-symbol">SOL/USDT</p><span class="pos-tag">Momentum</span></div>
+          <span style="color:#888;font-size:13px;">EMA Cross</span>
+          <span>$148.20</span>
+          <span>$144.50</span>
+          <span class="pos-pnl down">−$23 (−2.5%)</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- TICKER -->
 <div class="ticker-bar">
   <div class="ticker-track">
     <span class="ticker-item"><span class="ticker-dot">●</span>Live Portfolio Value</span>
@@ -179,6 +388,7 @@
   </div>
 </div>
 
+<!-- FEATURES -->
 <section id="features">
   <div class="feat-header">
     <div><p class="sec-label">Features</p><h2>Everything you need.<br>Nothing you don't.</h2></div>
@@ -194,17 +404,20 @@
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
 <section id="how">
-  <div class="how-header">
-    <div><p class="how-label">How it works</p><h2 class="how-h2">Three steps to full visibility.</h2></div>
+  <div class="how-header-full">
+    <p class="how-label">How it works</p>
+    <h2 class="how-h2">Three steps to full visibility.</h2>
   </div>
-  <div class="steps">
+  <div class="how-inner">
     <div class="step"><p class="step-num">01</p><p class="step-title">Request access</p><p class="step-desc">Email invest@otjcapital.com. We review your profile and send an invite within 24 hours.</p></div>
     <div class="step"><p class="step-num">02</p><p class="step-title">Magic link login</p><p class="step-desc">No passwords ever. Enter your email, tap the magic link we send, you're in — instantly and securely.</p></div>
     <div class="step"><p class="step-num">03</p><p class="step-title">See your fund live</p><p class="step-desc">Your full dashboard loads. Portfolio, positions, signals, market data — live, every single hour.</p></div>
   </div>
 </section>
 
+<!-- CTA -->
 <section id="cta">
   <p class="cta-h">Ready to<br>invest?</p>
   <div class="cta-right">
@@ -223,7 +436,7 @@
       <p class="footer-col-title">Product</p>
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
-      <a href="https://app.otj.app">Open App</a>
+      <a href="demo.html">Mobile App</a>
     </div>
     <div class="footer-col">
       <p class="footer-col-title">OTJ</p>
