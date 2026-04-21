@@ -1,18 +1,20 @@
-import Navbar from '@/components/ui/Navbar'
-import Hero from '@/components/sections/Hero'
-import Features from '@/components/sections/Features'
-import HowItWorks from '@/components/sections/HowItWorks'
-import CTA from '@/components/sections/CTA'
-import Footer from '@/components/ui/Footer'
+import Navigation from '@/components/shared/Navigation'
+import Footer from '@/components/shared/Footer'
+import Hero from '@/components/app/Hero'
+import Philosophy from '@/components/app/Philosophy'
+import Features from '@/components/app/Features'
+import DashboardPreview from '@/components/app/DashboardPreview'
+import Waitlist from '@/components/app/Waitlist'
 
 export default function Home() {
   return (
     <main>
-      <Navbar />
+      <Navigation />
       <Hero />
+      <Philosophy />
       <Features />
-      <HowItWorks />
-      <CTA />
+      <DashboardPreview />
+      <Waitlist />
       <Footer />
     </main>
   )
