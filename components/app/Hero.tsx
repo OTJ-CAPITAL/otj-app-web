@@ -1,328 +1,66 @@
 'use client'
-
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
 import { useInView } from 'react-intersection-observer'
+import { fadeUp, staggerContainer } from '@/lib/animations'
 
 const positions = [
-  { symbol: 'BTC/USD', side: 'LONG', pnl: '+$8,420', positive: true },
-  { symbol: 'ETH/USD', side: 'LONG', pnl: '+$3,105', positive: true },
-  { symbol: 'EUR/NGN', side: 'SHORT', pnl: '-$640', positive: false },
+  { symbol: 'BTC/USDT', side: 'LONG', pnl: '+$1,240', color: '#22c55e' },
+  { symbol: 'ETH/USDT', side: 'LONG', pnl: '+$380', color: '#22c55e' },
+  { symbol: 'SOL/USDT', side: 'SHORT', pnl: '-$120', color: '#ef4444' },
 ]
 
 export default function Hero() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 })
-  const [started, setStarted] = useState(false)
-
-  useEffect(() => {
-    if (inView) setStarted(true)
-  }, [inView])
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
-    <section
-      ref={ref}
-      style={{
-        minHeight: '100vh',
-        backgroundColor: '#080808',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '120px 24px 80px',
-      }}
-    >
-      <div className="hero-grid" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-        {/* Left: Text content */}
-        <div>
-          {/* Label */}
-          <p className="section-label" style={{ marginBottom: '28px' }}>
-            The Transparency Layer
-          </p>
+    <section ref={ref} style={{ minHeight: '100vh', background: '#080808', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center', padding: '120px 64px 80px', maxWidth: '1280px', margin: '0 auto' }}>
+      {/* Left: Text */}
+      <motion.div variants={staggerContainer} initial="hidden" animate={inView ? 'visible' : 'hidden'}>
+        <motion.div variants={fadeUp} style={{ fontFamily: 'Space Grotesk', fontSize: '11px', color: '#C9A84C', letterSpacing: '4px', marginBottom: '32px' }}>THE TRANSPARENCY LAYER</motion.div>
+        <motion.h1 variants={fadeUp} style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 'clamp(44px, 5vw, 72px)', color: '#FFFFFF', lineHeight: 1.1, marginBottom: '32px' }}>
+          See everything.<br />In real time.
+        </motion.h1>
+        <motion.p variants={fadeUp} style={{ fontFamily: 'Inter', fontSize: '20px', color: '#888888', lineHeight: 1.7, marginBottom: '48px' }}>
+          Your capital. Always visible.<br />Every trade. Every signal.<br />Every position. Auditable.
+        </motion.p>
+        <motion.div variants={fadeUp} style={{ display: 'flex', gap: '16px' }}>
+          <a href="#waitlist" style={{ background: '#C9A84C', color: '#080808', padding: '14px 32px', fontFamily: 'Space Grotesk', fontWeight: 600, fontSize: '15px', textDecoration: 'none', borderRadius: '2px' }}>Join The Waitlist →</a>
+          <a href="#dashboard" style={{ border: '1px solid #2A2A2A', color: '#FFFFFF', padding: '14px 32px', fontFamily: 'Space Grotesk', fontWeight: 600, fontSize: '15px', textDecoration: 'none', borderRadius: '2px' }}>See Demo Dashboard</a>
+        </motion.div>
+      </motion.div>
 
-          {/* Headline */}
-          <h1 className="hero-headline">
-            See everything.<br />
-            In real time.
-          </h1>
-
-          {/* Subheadline */}
-          <p
-            style={{
-              fontFamily: 'var(--font-inter), sans-serif',
-              fontSize: '20px',
-              lineHeight: 1.7,
-              color: '#888888',
-              marginBottom: '44px',
-              maxWidth: '440px',
-            }}
-          >
-            Your capital. Always visible.<br />
-            Every trade. Every signal.<br />
-            Every position. Auditable.
-          </p>
-
-          {/* CTA Row */}
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <Link href="#waitlist" className="btn-primary">
-              Join The Waitlist →
-            </Link>
-            <Link href="#dashboard" className="btn-ghost">
-              See Demo Dashboard
-            </Link>
+      {/* Right: Dashboard card */}
+      <motion.div variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
+        style={{ background: '#141414', border: '1px solid #1E1E1E', borderRadius: '8px', padding: '32px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <span style={{ fontFamily: 'Space Grotesk', fontSize: '13px', color: '#888888' }}>Portfolio Overview</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', animation: 'pulse 2s ease-in-out infinite' }} />
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '12px', color: '#22c55e' }}>LIVE</span>
           </div>
         </div>
-
-        {/* Right: Mock Dashboard Card */}
-        <div className="hero-dashboard-card">
-          {/* Live indicator */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <span className="live-dot" />
-            <span
-              style={{
-                fontFamily: 'var(--font-inter), sans-serif',
-                fontSize: '11px',
-                fontWeight: 500,
-                color: '#22C55E',
-                letterSpacing: '1px',
-              }}
-            >
-              LIVE
-            </span>
-          </div>
-
-          {/* Stats rows */}
-          <div style={{ marginBottom: '24px' }}>
-            <StatRow
-              label="Total AUM"
-              value={
-                started ? (
-                  <CountUp
-                    start={0}
-                    end={2412000}
-                    duration={2.2}
-                    separator=","
-                    prefix="$"
-                    className="stat-value-gold"
-                  />
-                ) : (
-                  <span className="stat-value-gold">$0</span>
-                )
-              }
-            />
-            <StatRow
-              label="Monthly Return"
-              value={<span className="stat-value-green">+12.4%</span>}
-            />
-            <StatRow
-              label="Win Rate"
-              value={<span className="stat-value-white">68.4%</span>}
-            />
-          </div>
-
-          {/* Divider */}
-          <div style={{ height: '1px', backgroundColor: '#1E1E1E', marginBottom: '20px' }} />
-
-          {/* Positions */}
-          <div>
-            <p className="table-label" style={{ marginBottom: '12px' }}>
-              Open Positions
-            </p>
-            {positions.map((pos, i) => (
-              <div
-                key={i}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '10px 0',
-                  borderBottom: i < positions.length - 1 ? '1px solid #1E1E1E' : 'none',
-                }}
-              >
-                <span className="mono-text">{pos.symbol}</span>
-                <span className={pos.side === 'LONG' ? 'tag-long' : 'tag-short'}>
-                  {pos.side}
-                </span>
-                <span className={pos.positive ? 'stat-value-green' : 'stat-value-red'} style={{ fontSize: '13px' }}>
-                  {pos.pnl}
-                </span>
-              </div>
-            ))}
+        <div style={{ marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'Inter', fontSize: '12px', color: '#555555', marginBottom: '4px' }}>Total AUM</div>
+          <div style={{ fontFamily: 'JetBrains Mono', fontSize: '32px', color: '#C9A84C', fontWeight: 700 }}>
+            {inView ? <CountUp start={0} end={2412000} duration={2} prefix="$" separator="," /> : '$0'}
           </div>
         </div>
-      </div>
-
-      <style>{`
-        .hero-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 80px;
-          align-items: center;
-        }
-        .hero-headline {
-          font-family: var(--font-space), sans-serif;
-          font-weight: 700;
-          font-size: clamp(44px, 6vw, 72px);
-          line-height: 1.08;
-          color: #FFFFFF;
-          margin-bottom: 28px;
-          letter-spacing: -1.5px;
-        }
-        .hero-dashboard-card {
-          background-color: #141414;
-          border: 1px solid #1E1E1E;
-          border-radius: 4px;
-          padding: 28px;
-          position: relative;
-        }
-        .section-label {
-          font-family: var(--font-inter), sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          color: #C9A84C;
-          letter-spacing: 4px;
-          text-transform: uppercase;
-        }
-        .btn-primary {
-          font-family: var(--font-inter), sans-serif;
-          font-weight: 500;
-          font-size: 15px;
-          color: #080808;
-          background-color: #C9A84C;
-          padding: 14px 28px;
-          border-radius: 2px;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: background-color 0.2s ease;
-        }
-        .btn-primary:hover { background-color: #E8C96A; }
-        .btn-ghost {
-          font-family: var(--font-inter), sans-serif;
-          font-weight: 500;
-          font-size: 15px;
-          color: #FFFFFF;
-          background-color: transparent;
-          border: 1px solid #2A2A2A;
-          padding: 14px 28px;
-          border-radius: 2px;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: border-color 0.2s ease;
-        }
-        .btn-ghost:hover { border-color: #C9A84C; }
-        .live-dot {
-          display: block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background-color: #22C55E;
-          box-shadow: 0 0 6px #22C55E;
-          animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-        .stat-value-gold {
-          font-family: var(--font-mono), monospace;
-          font-size: 22px;
-          font-weight: 600;
-          color: #C9A84C;
-        }
-        .stat-value-green {
-          font-family: var(--font-mono), monospace;
-          font-size: 18px;
-          font-weight: 600;
-          color: #22C55E;
-        }
-        .stat-value-red {
-          font-family: var(--font-mono), monospace;
-          font-weight: 600;
-          color: #EF4444;
-        }
-        .stat-value-white {
-          font-family: var(--font-mono), monospace;
-          font-size: 18px;
-          font-weight: 600;
-          color: #FFFFFF;
-        }
-        .table-label {
-          font-family: var(--font-inter), sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          color: #555555;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-        }
-        .mono-text {
-          font-family: var(--font-mono), monospace;
-          font-size: 13px;
-          font-weight: 500;
-          color: #FFFFFF;
-        }
-        .tag-long {
-          font-family: var(--font-inter), sans-serif;
-          font-size: 11px;
-          font-weight: 600;
-          color: #22C55E;
-          background-color: rgba(34,197,94,0.1);
-          padding: 2px 8px;
-          border-radius: 2px;
-          letter-spacing: 1px;
-        }
-        .tag-short {
-          font-family: var(--font-inter), sans-serif;
-          font-size: 11px;
-          font-weight: 600;
-          color: #EF4444;
-          background-color: rgba(239,68,68,0.1);
-          padding: 2px 8px;
-          border-radius: 2px;
-          letter-spacing: 1px;
-        }
-        @media (max-width: 768px) {
-          .hero-grid {
-            grid-template-columns: 1fr !important;
-            gap: 48px !important;
-          }
-        }
-      `}</style>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px', paddingTop: '16px', borderTop: '1px solid #1E1E1E' }}>
+          <div><div style={{ fontFamily: 'Inter', fontSize: '11px', color: '#555555', marginBottom: '4px' }}>Monthly Return</div><div style={{ fontFamily: 'JetBrains Mono', fontSize: '18px', color: '#22c55e' }}>+12.4%</div></div>
+          <div><div style={{ fontFamily: 'Inter', fontSize: '11px', color: '#555555', marginBottom: '4px' }}>Win Rate</div><div style={{ fontFamily: 'JetBrains Mono', fontSize: '18px', color: '#FFFFFF' }}>68.4%</div></div>
+        </div>
+        <div style={{ borderTop: '1px solid #1E1E1E', paddingTop: '16px' }}>
+          <div style={{ fontFamily: 'Inter', fontSize: '11px', color: '#555555', marginBottom: '12px', letterSpacing: '2px' }}>OPEN POSITIONS</div>
+          {positions.map((p, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: i < 2 ? '1px solid #1E1E1E' : 'none' }}>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: '13px', color: '#FFFFFF' }}>{p.symbol}</span>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: '11px', color: p.side === 'LONG' ? '#22c55e' : '#ef4444', border: `1px solid ${p.side === 'LONG' ? '#22c55e' : '#ef4444'}`, padding: '2px 8px', borderRadius: '2px' }}>{p.side}</span>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: '13px', color: p.color }}>{p.pnl}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
-  )
-}
-
-function StatRow({ label, value }: { label: string; value: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '10px 0',
-        borderBottom: '1px solid #1E1E1E',
-      }}
-    >
-      <span
-        style={{
-          fontFamily: 'var(--font-inter), sans-serif',
-          fontSize: '13px',
-          color: '#555555',
-        }}
-      >
-        {label}
-      </span>
-      {value}
-    </div>
   )
 }

@@ -1,53 +1,18 @@
 'use client'
-
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { fadeUp } from '@/lib/animations'
 
 export default function Philosophy() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 })
-
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 })
   return (
-    <section
-      style={{
-        backgroundColor: '#0D0D0D',
-        padding: '120px 24px',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '900px',
-          margin: '0 auto',
-        }}
-      >
-        <motion.div
-          ref={ref}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={fadeUp}
-          style={{
-            backgroundColor: '#141414',
-            borderLeft: '4px solid #C9A84C',
-            borderRadius: '4px',
-            padding: 'clamp(48px, 6vw, 80px)',
-          }}
-        >
-          <blockquote
-            style={{
-              fontFamily: 'var(--font-space), sans-serif',
-              fontWeight: 700,
-              fontSize: 'clamp(26px, 3.5vw, 40px)',
-              lineHeight: 1.4,
-              color: '#FFFFFF',
-              textAlign: 'center',
-              margin: 0,
-            }}
-          >
-            &ldquo;If you cannot show your investors
-            exactly what you are doing,
-            you should not be managing
-            their money.&rdquo;
-          </blockquote>
+    <section ref={ref} style={{ background: '#0D0D0D', padding: '120px 32px' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <motion.div variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
+          style={{ borderLeft: '4px solid #C9A84C', padding: '48px 56px', background: '#141414', borderRadius: '4px' }}>
+          <p style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 'clamp(24px, 3vw, 40px)', color: '#FFFFFF', lineHeight: 1.5 }}>
+            "If you cannot show your investors exactly what you are doing, you should not be managing their money."
+          </p>
         </motion.div>
       </div>
     </section>
