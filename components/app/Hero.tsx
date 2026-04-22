@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { fadeUp, staggerContainer } from '@/lib/animations'
@@ -10,8 +11,59 @@ const positions = [
   { symbol: 'SOL/USDT', side: 'SHORT', pnl: '-$120', pos: false },
 ]
 
+const initialBids = [
+  { price: '$94,100', qty: '0.241' },
+  { price: '$94,080', qty: '0.512' },
+  { price: '$94,050', qty: '1.200' },
+]
+
+const initialAsks = [
+  { price: '$94,140', qty: '0.088' },
+  { price: '$94,160', qty: '0.441' },
+  { price: '$94,180', qty: '0.877' },
+]
+
+// Deterministic tick values cycling through rows
+const bidTicks = [
+  ['0.253', '0.498', '1.184'],
+  ['0.241', '0.521', '1.200'],
+  ['0.268', '0.512', '1.219'],
+]
+const askTicks = [
+  ['0.092', '0.435', '0.891'],
+  ['0.088', '0.447', '0.877'],
+  ['0.076', '0.441', '0.864'],
+]
+
 export default function Hero() {
   const { ref, inView } = useInView({ triggerOnce: true, fallbackInView: true })
+  const [bids, setBids] = useState(initialBids)
+  const [asks, setAsks] = useState(initialAsks)
+  const [flashBidIdx, setFlashBidIdx] = useState<number | null>(null)
+  const [flashAskIdx, setFlashAskIdx] = useState<number | null>(null)
+
+  useEffect(() => {
+    let tickIndex = 0
+    const id = setInterval(() => {
+      const idx = tickIndex % 3
+      tickIndex = (tickIndex + 1) % 3
+
+      const bSet = bidTicks[idx]
+      const aSet = askTicks[idx]
+
+      setBids(prev => prev.map((b, i) => i === idx ? { ...b, qty: bSet[i] } : b))
+      setAsks(prev => prev.map((a, i) => i === idx ? { ...a, qty: aSet[i] } : a))
+
+      setFlashBidIdx(idx)
+      setFlashAskIdx(idx)
+      setTimeout(() => {
+        setFlashBidIdx(null)
+        setFlashAskIdx(null)
+      }, 400)
+    }, 2000)
+    return () => clearInterval(id)
+  }, [])
+
   return (
     <section ref={ref} style={{ minHeight:'100vh',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'80px',alignItems:'center',padding:'100px 64px 80px',borderBottom:'1px solid #E5E5E5' }}>
       <motion.div variants={staggerContainer} initial="hidden" animate={inView?'visible':'hidden'}>
@@ -54,6 +106,59 @@ export default function Hero() {
               <span style={{ fontSize:'13px',color: p.pos?'#000':'#888' }}>{p.pnl}</span>
             </div>
           ))}
+        </div>
+
+        {/* Order Book */}
+        <div style={{ borderTop:'1px solid #E5E5E5',marginTop:'16px',paddingTop:'16px' }}>
+          {/* Header */}
+          <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0',marginBottom:'8px' }}>
+            <div style={{ fontFamily:'var(--font-mono)',fontSize:'10px',color:'#888',letterSpacing:'2px' }}>BIDS</div>
+            <div style={{ fontFamily:'var(--font-mono)',fontSize:'10px',color:'#888',letterSpacing:'2px',textAlign:'right' }}>ASKS</div>
+          </div>
+
+          {/* Rows */}
+          {[0,1,2].map(i => (
+            <div key={i} style={{ display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:'8px',marginBottom:'4px',alignItems:'center' }}>
+              {/* Bid */}
+              <div style={{
+                display:'flex',
+                gap:'8px',
+                fontFamily:'var(--font-mono)',
+                fontSize:'11px',
+                color:'#000',
+                background: flashBidIdx === i ? 'rgba(0,0,0,0.06)' : 'transparent',
+                transition:'background 0.15s',
+                padding:'2px 4px',
+              }}>
+                <span>{bids[i].price}</span>
+                <span style={{ color:'#555' }}>{bids[i].qty}</span>
+              </div>
+
+              {/* Middle spacer */}
+              <div style={{ width:'1px',background:'#E5E5E5',height:'16px' }} />
+
+              {/* Ask */}
+              <div style={{
+                display:'flex',
+                justifyContent:'flex-end',
+                gap:'8px',
+                fontFamily:'var(--font-mono)',
+                fontSize:'11px',
+                color:'#888',
+                background: flashAskIdx === i ? 'rgba(0,0,0,0.06)' : 'transparent',
+                transition:'background 0.15s',
+                padding:'2px 4px',
+              }}>
+                <span style={{ color:'#555' }}>{asks[i].qty}</span>
+                <span>{asks[i].price}</span>
+              </div>
+            </div>
+          ))}
+
+          {/* Spread */}
+          <div style={{ marginTop:'8px',textAlign:'center',fontFamily:'var(--font-mono)',fontSize:'10px',color:'#888',letterSpacing:'1px' }}>
+            Spread: $40
+          </div>
         </div>
       </motion.div>
     </section>

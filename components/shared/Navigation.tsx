@@ -1,15 +1,42 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { Bell } from 'lucide-react'
+
+const notifications = [
+  { text: 'BTC/USDT LONG signal executed', time: '2m ago' },
+  { text: 'Monthly return: +12.4%', time: '1h ago' },
+  { text: 'New signal: ETH/USDT HOLD', time: '3h ago' },
+]
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [notifOpen, setNotifOpen] = useState(false)
+  const [hasNew, setHasNew] = useState(true)
+  const notifRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', fn)
     return () => window.removeEventListener('scroll', fn)
   }, [])
+
+  useEffect(() => {
+    function handleOutsideClick(e: MouseEvent) {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setNotifOpen(false)
+      }
+    }
+    if (notifOpen) {
+      document.addEventListener('mousedown', handleOutsideClick)
+    }
+    return () => document.removeEventListener('mousedown', handleOutsideClick)
+  }, [notifOpen])
+
+  function toggleNotif() {
+    setNotifOpen(o => !o)
+    if (!notifOpen) setHasNew(false)
+  }
 
   const links = ['Features', 'Dashboard']
 
@@ -38,6 +65,65 @@ export default function Navigation() {
           {links.map(item => (
             <a key={item} href={`#${item.toLowerCase()}`} style={{ fontFamily:'var(--font-inter)',fontSize:'14px',color:'#555',textDecoration:'none' }}>{item}</a>
           ))}
+
+          {/* Notification bell */}
+          <div ref={notifRef} style={{ position:'relative' }}>
+            <button
+              onClick={toggleNotif}
+              style={{
+                background:'none',
+                border:'none',
+                cursor:'pointer',
+                padding:'4px',
+                display:'flex',
+                alignItems:'center',
+                justifyContent:'center',
+                position:'relative',
+                color:'#000',
+              }}
+              aria-label="Notifications"
+            >
+              <Bell size={18} color="#000" />
+              {hasNew && (
+                <span style={{
+                  position:'absolute',
+                  top:'2px',
+                  right:'2px',
+                  width:'8px',
+                  height:'8px',
+                  borderRadius:'50%',
+                  background:'#ef4444',
+                  display:'block',
+                }} />
+              )}
+            </button>
+
+            {/* Notification dropdown */}
+            {notifOpen && (
+              <div style={{
+                position:'absolute',
+                right:0,
+                top:'48px',
+                width:'200px',
+                background:'#fff',
+                border:'1px solid #E5E5E5',
+                zIndex:200,
+                padding:'16px',
+                boxShadow:'0 4px 16px rgba(0,0,0,0.08)',
+              }}>
+                {notifications.map((n, i) => (
+                  <div key={i} style={{
+                    borderBottom: i < notifications.length - 1 ? '1px solid #F0F0F0' : 'none',
+                    padding:'10px 0',
+                  }}>
+                    <div style={{ fontFamily:'var(--font-inter)',fontSize:'13px',color:'#111',marginBottom:'4px',lineHeight:1.4 }}>{n.text}</div>
+                    <div style={{ fontFamily:'var(--font-mono)',fontSize:'11px',color:'#888' }}>{n.time}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <a href="#waitlist" style={{ background:'#000',color:'#fff',padding:'8px 18px',fontSize:'14px',fontFamily:'var(--font-sg)',fontWeight:600,textDecoration:'none' }}>Get Access</a>
         </div>
 

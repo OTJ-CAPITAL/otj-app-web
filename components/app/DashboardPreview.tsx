@@ -1,15 +1,31 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { fadeUp } from '@/lib/animations'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
 
-const chartData = [
-  {m:'Jan',v:100000},{m:'Feb',v:108000},{m:'Mar',v:115000},{m:'Apr',v:112000},
-  {m:'May',v:124000},{m:'Jun',v:131000},{m:'Jul',v:128000},{m:'Aug',v:145000},
-  {m:'Sep',v:152000},{m:'Oct',v:149000},{m:'Nov',v:168000},{m:'Dec',v:182000},
-]
+type Timeframe = '1W' | '1M' | '3M' | '6M' | '1Y'
+
+const timeframeData: Record<Timeframe, { d: string; v: number }[]> = {
+  '1W': [
+    {d:'Mon',v:178000},{d:'Tue',v:181000},{d:'Wed',v:179500},{d:'Thu',v:183000},{d:'Fri',v:182000},
+  ],
+  '1M': [
+    {d:'W1',v:165000},{d:'W2',v:170000},{d:'W3',v:174000},{d:'W4',v:182000},
+  ],
+  '3M': [
+    {d:'Oct',v:149000},{d:'Nov',v:168000},{d:'Dec',v:182000},
+  ],
+  '6M': [
+    {d:'Jul',v:128000},{d:'Aug',v:145000},{d:'Sep',v:152000},{d:'Oct',v:149000},{d:'Nov',v:168000},{d:'Dec',v:182000},
+  ],
+  '1Y': [
+    {d:'Jan',v:100000},{d:'Feb',v:108000},{d:'Mar',v:115000},{d:'Apr',v:112000},
+    {d:'May',v:124000},{d:'Jun',v:131000},{d:'Jul',v:128000},{d:'Aug',v:145000},
+    {d:'Sep',v:152000},{d:'Oct',v:149000},{d:'Nov',v:168000},{d:'Dec',v:182000},
+  ],
+}
 
 const navItems = ['Dashboard','Portfolio','Trades','Signals','Capital'] as const
 type Tab = typeof navItems[number]
@@ -24,20 +40,59 @@ function fmtPnl(v: number) {
   return (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString()
 }
 
+const timeframes: Timeframe[] = ['1W','1M','3M','6M','1Y']
+
 function DashboardTab() {
+  const [timeframe, setTimeframe] = useState<Timeframe>('1Y')
+  const data = timeframeData[timeframe]
+
   return (
     <>
-      <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'16px',color:'#000',marginBottom:'24px' }}>Portfolio Performance</div>
-      <div style={{ height:'220px',marginBottom:'24px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
-            <XAxis dataKey="m" stroke="#E5E5E5" tick={{ fill:'#888',fontSize:11 }} />
-            <YAxis stroke="#E5E5E5" tick={{ fill:'#888',fontSize:11 }} />
-            <Tooltip contentStyle={{ background:'#fff',border:'1px solid #E5E5E5',borderRadius:'0',fontSize:'12px' }} />
-            <Line type="monotone" dataKey="v" stroke="#000" strokeWidth={2} dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
+      <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'16px',color:'#000',marginBottom:'16px' }}>Portfolio Performance</div>
+
+      {/* Timeframe switcher */}
+      <div style={{ display:'flex',gap:'6px',marginBottom:'16px' }}>
+        {timeframes.map(tf => (
+          <button
+            key={tf}
+            onClick={() => setTimeframe(tf)}
+            style={{
+              padding:'6px 14px',
+              fontSize:'12px',
+              fontFamily:'var(--font-mono)',
+              cursor:'pointer',
+              background: timeframe === tf ? '#000' : '#fff',
+              color: timeframe === tf ? '#fff' : '#888',
+              border: timeframe === tf ? '1px solid #000' : '1px solid #E5E5E5',
+              transition:'all 0.15s',
+            }}
+          >{tf}</button>
+        ))}
       </div>
+
+      {/* Animated chart */}
+      <div style={{ height:'190px',marginBottom:'24px' }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={timeframe}
+            initial={{ opacity:0 }}
+            animate={{ opacity:1 }}
+            exit={{ opacity:0 }}
+            transition={{ duration:0.15 }}
+            style={{ height:'100%' }}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data}>
+                <XAxis dataKey="d" stroke="#E5E5E5" tick={{ fill:'#888',fontSize:11 }} />
+                <YAxis stroke="#E5E5E5" tick={{ fill:'#888',fontSize:11 }} />
+                <Tooltip contentStyle={{ background:'#fff',border:'1px solid #E5E5E5',borderRadius:'0',fontSize:'12px' }} />
+                <Line type="monotone" dataKey="v" stroke="#000" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
       <div style={{ display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'16px' }}>
         {[['Total Return','+82%'],['Sharpe Ratio','1.84'],['Max Drawdown','-8.3%']].map(([l,v])=>(
           <div key={l} style={{ background:'#F5F5F5',padding:'16px',border:'1px solid #E5E5E5' }}>
@@ -87,29 +142,72 @@ function PortfolioTab() {
   )
 }
 
+type SideFilter = 'ALL' | 'BUY' | 'SELL'
+type PairFilter = 'ALL' | 'BTC' | 'ETH' | 'SOL'
+
 function TradesTab() {
-  const trades = [
+  const [sideFilter, setSideFilter] = useState<SideFilter>('ALL')
+  const [pairFilter, setPairFilter] = useState<PairFilter>('ALL')
+
+  const allTrades = [
     { dt:'2026-04-22 14:32:01', side:'BUY',  pair:'BTC/USDT', size:'0.042', price:'$94,120', note:'' },
     { dt:'2026-04-22 11:18:44', side:'SELL', pair:'ETH/USDT', size:'0.8',   price:'$1,835',  note:'+$76' },
     { dt:'2026-04-22 08:05:12', side:'BUY',  pair:'SOL/USDT', size:'8.0',   price:'$148',    note:'' },
     { dt:'2026-04-21 22:41:09', side:'SELL', pair:'BTC/USDT', size:'0.038', price:'$93,800', note:'+$98' },
     { dt:'2026-04-21 19:22:33', side:'BUY',  pair:'ETH/USDT', size:'2.0',   price:'$1,720',  note:'' },
   ]
+
+  const filtered = allTrades.filter(t => {
+    const sideOk = sideFilter === 'ALL' || t.side === sideFilter
+    const pairOk = pairFilter === 'ALL' || t.pair.startsWith(pairFilter + '/')
+    return sideOk && pairOk
+  })
+
+  const btnStyle = (active: boolean): React.CSSProperties => ({
+    padding:'5px 10px',
+    fontSize:'11px',
+    fontFamily:'var(--font-mono)',
+    cursor:'pointer',
+    background: active ? '#000' : '#fff',
+    color: active ? '#fff' : '#888',
+    border: active ? '1px solid #000' : '1px solid #E5E5E5',
+    transition:'all 0.15s',
+  })
+
   return (
     <>
-      <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'16px',color:'#000',marginBottom:'24px' }}>Trade Log</div>
-      <div>
-        {trades.map((t,i)=>(
-          <div key={i} style={{ display:'flex',gap:'12px',alignItems:'center',padding:'9px 12px',background:i%2===0?'#FAFAFA':'#fff',fontFamily:'var(--font-mono)',fontSize:'12px',color:'#111' }}>
-            <span style={{ color:'#888',minWidth:'148px' }}>{t.dt}</span>
-            <span style={{ fontWeight: t.side==='BUY'?600:400, color: t.side==='BUY'?'#000':'#555', minWidth:'36px' }}>{t.side}</span>
-            <span style={{ minWidth:'80px' }}>{t.pair}</span>
-            <span style={{ minWidth:'48px' }}>{t.size}</span>
-            <span>@ {t.price}</span>
-            {t.note && <span style={{ color:'#22c55e',marginLeft:'8px' }}>{t.note}</span>}
-          </div>
-        ))}
+      <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'16px',color:'#000',marginBottom:'16px' }}>Trade Log</div>
+
+      {/* Filter bar */}
+      <div style={{ display:'flex',gap:'16px',flexWrap:'wrap',marginBottom:'16px',alignItems:'center' }}>
+        <div style={{ display:'flex',gap:'4px' }}>
+          {(['ALL','BUY','SELL'] as SideFilter[]).map(f => (
+            <button key={f} onClick={() => setSideFilter(f)} style={btnStyle(sideFilter === f)}>{f}</button>
+          ))}
+        </div>
+        <div style={{ display:'flex',gap:'4px' }}>
+          {(['ALL','BTC','ETH','SOL'] as PairFilter[]).map(f => (
+            <button key={f} onClick={() => setPairFilter(f)} style={btnStyle(pairFilter === f)}>{f}</button>
+          ))}
+        </div>
       </div>
+
+      {filtered.length === 0 ? (
+        <div style={{ fontFamily:'var(--font-mono)',fontSize:'12px',color:'#888',padding:'20px 0' }}>No trades match filters.</div>
+      ) : (
+        <div>
+          {filtered.map((t,i)=>(
+            <div key={i} style={{ display:'flex',gap:'12px',alignItems:'center',padding:'9px 12px',background:i%2===0?'#FAFAFA':'#fff',fontFamily:'var(--font-mono)',fontSize:'12px',color:'#111' }}>
+              <span style={{ color:'#888',minWidth:'148px' }}>{t.dt}</span>
+              <span style={{ fontWeight: t.side==='BUY'?600:400, color: t.side==='BUY'?'#000':'#555', minWidth:'36px' }}>{t.side}</span>
+              <span style={{ minWidth:'80px' }}>{t.pair}</span>
+              <span style={{ minWidth:'48px' }}>{t.size}</span>
+              <span>@ {t.price}</span>
+              {t.note && <span style={{ color:'#22c55e',marginLeft:'8px' }}>{t.note}</span>}
+            </div>
+          ))}
+        </div>
+      )}
     </>
   )
 }
@@ -197,11 +295,15 @@ export default function DashboardPreview() {
   const [activeTab, setActiveTab] = useState<Tab>('Dashboard')
   const [positions, setPositions] = useState(initialPositions)
   const [flashIndex, setFlashIndex] = useState<number | null>(null)
+  const tickRef = { current: 0 }
 
   useEffect(() => {
+    let tick = 0
     const id = setInterval(() => {
-      const idx = Math.floor(Math.random() * 3)
-      const delta = (Math.random() * 20 - 10)
+      const idx = tick % 3
+      tick += 1
+      const deltas = [8, -5, 12]
+      const delta = deltas[idx]
       setPositions(prev => prev.map((p, i) => i === idx ? { ...p, pnl: Math.round((p.pnl + delta) * 100) / 100 } : p))
       setFlashIndex(idx)
       setTimeout(() => setFlashIndex(null), 500)
