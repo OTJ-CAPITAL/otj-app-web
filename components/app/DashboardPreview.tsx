@@ -5,64 +5,56 @@ import { fadeUp } from '@/lib/animations'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
 
 const data = [
-  { month: 'M1', value: 100000 }, { month: 'M2', value: 104500 }, { month: 'M3', value: 111200 },
-  { month: 'M4', value: 108800 }, { month: 'M5', value: 117600 }, { month: 'M6', value: 124300 },
-  { month: 'M7', value: 121500 }, { month: 'M8', value: 132700 }, { month: 'M9', value: 141200 },
-  { month: 'M10', value: 138900 }, { month: 'M11', value: 149600 }, { month: 'M12', value: 158400 },
+  {m:'Jan',v:100000},{m:'Feb',v:108000},{m:'Mar',v:115000},{m:'Apr',v:112000},
+  {m:'May',v:124000},{m:'Jun',v:131000},{m:'Jul',v:128000},{m:'Aug',v:145000},
+  {m:'Sep',v:152000},{m:'Oct',v:149000},{m:'Nov',v:168000},{m:'Dec',v:182000},
 ]
-
-const navItems = ['Dashboard', 'Portfolio', 'Trades', 'Signals', 'Capital']
+const navItems = ['Dashboard','Portfolio','Trades','Signals','Capital']
 
 export default function DashboardPreview() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
+  const { ref, inView } = useInView({ triggerOnce: true, fallbackInView: true })
   return (
-    <section id="dashboard" ref={ref} style={{ background: '#0D0D0D', padding: '120px 32px' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-        <motion.div variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'} style={{ fontFamily: 'Space Grotesk', fontSize: '10px', color: '#C9A84C', letterSpacing: '3px', marginBottom: '32px' }}>INVESTOR DASHBOARD — LIVE PREVIEW</motion.div>
-        <motion.div variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-          style={{ background: '#141414', border: '1px solid #1E1E1E', borderRadius: '8px', overflow: 'hidden', display: 'grid', gridTemplateColumns: '200px 1fr 240px', minHeight: '480px' }}>
-          {/* Sidebar */}
-          <div style={{ background: '#111111', borderRight: '1px solid #1E1E1E', padding: '24px 0' }}>
-            <div style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '14px', color: '#C9A84C', padding: '0 24px 24px', borderBottom: '1px solid #1E1E1E', marginBottom: '16px' }}>OTJ APP</div>
-            {navItems.map((item, i) => (
-              <div key={item} style={{ padding: '12px 24px', fontFamily: 'Inter', fontSize: '13px', color: i === 0 ? '#FFFFFF' : '#555555', borderLeft: i === 0 ? '2px solid #C9A84C' : '2px solid transparent', cursor: 'pointer' }}>{item}</div>
+    <section id="dashboard" ref={ref} style={{ padding:'120px 32px',background:'#F5F5F5',borderBottom:'1px solid #E5E5E5' }}>
+      <div style={{ maxWidth:'1280px',margin:'0 auto' }}>
+        <motion.div variants={fadeUp} initial="hidden" animate={inView?'visible':'hidden'} style={{ fontFamily:'var(--font-mono)',fontSize:'11px',letterSpacing:'2px',color:'#888',marginBottom:'32px' }}>LIVE DASHBOARD PREVIEW</motion.div>
+        <motion.div variants={fadeUp} initial="hidden" animate={inView?'visible':'hidden'}
+          style={{ border:'1px solid #000',background:'#fff',display:'grid',gridTemplateColumns:'180px 1fr 220px',minHeight:'460px' }}>
+          <div style={{ borderRight:'1px solid #E5E5E5',padding:'24px 0' }}>
+            <div style={{ fontFamily:'var(--font-sg)',fontWeight:700,fontSize:'13px',color:'#000',padding:'0 20px 20px',borderBottom:'1px solid #E5E5E5',marginBottom:'8px' }}>OTJ APP</div>
+            {navItems.map((item,i)=>(
+              <div key={item} style={{ padding:'10px 20px',fontFamily:'var(--font-inter)',fontSize:'13px',color:i===0?'#000':'#AAA',borderLeft:i===0?'2px solid #000':'2px solid transparent',cursor:'pointer' }}>{item}</div>
             ))}
           </div>
-          {/* Main */}
-          <div style={{ padding: '32px' }}>
-            <div style={{ fontFamily: 'Space Grotesk', fontWeight: 600, fontSize: '18px', color: '#FFFFFF', marginBottom: '24px' }}>Portfolio Performance</div>
-            <div style={{ height: '240px', marginBottom: '24px' }}>
+          <div style={{ padding:'32px' }}>
+            <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'16px',color:'#000',marginBottom:'24px' }}>Portfolio Performance</div>
+            <div style={{ height:'220px',marginBottom:'24px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={data}>
-                  <XAxis dataKey="month" stroke="#333" tick={{ fill: '#555', fontSize: 11 }} />
-                  <YAxis stroke="#333" tick={{ fill: '#555', fontSize: 11 }} />
-                  <Tooltip contentStyle={{ background: '#141414', border: '1px solid #1E1E1E', borderRadius: '4px' }} labelStyle={{ color: '#888' }} itemStyle={{ color: '#C9A84C' }} />
-                  <Line type="monotone" dataKey="value" stroke="#C9A84C" strokeWidth={2} dot={false} />
+                  <XAxis dataKey="m" stroke="#E5E5E5" tick={{ fill:'#888',fontSize:11 }} />
+                  <YAxis stroke="#E5E5E5" tick={{ fill:'#888',fontSize:11 }} />
+                  <Tooltip contentStyle={{ background:'#fff',border:'1px solid #E5E5E5',borderRadius:'0',fontSize:'12px' }} />
+                  <Line type="monotone" dataKey="v" stroke="#000" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-              {[['Total Return', '+34.2%', '#22c55e'], ['Sharpe Ratio', '1.84', '#FFFFFF'], ['Max Drawdown', '-8.3%', '#ef4444']].map(([label, val, col]) => (
-                <div key={label} style={{ background: '#111111', padding: '16px', borderRadius: '4px', border: '1px solid #1E1E1E' }}>
-                  <div style={{ fontFamily: 'Inter', fontSize: '11px', color: '#555555', marginBottom: '8px' }}>{label}</div>
-                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: '18px', color: col, fontWeight: 700 }}>{val}</div>
+            <div style={{ display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'16px' }}>
+              {[['Total Return','+82%'],['Sharpe Ratio','1.84'],['Max Drawdown','-8.3%']].map(([l,v])=>(
+                <div key={l} style={{ background:'#F5F5F5',padding:'16px',border:'1px solid #E5E5E5' }}>
+                  <div style={{ fontFamily:'var(--font-inter)',fontSize:'11px',color:'#888',marginBottom:'8px' }}>{l}</div>
+                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'18px',fontWeight:700,color:'#000' }}>{v}</div>
                 </div>
               ))}
             </div>
           </div>
-          {/* Right panel */}
-          <div style={{ borderLeft: '1px solid #1E1E1E', padding: '32px 24px' }}>
-            <div style={{ fontFamily: 'Space Grotesk', fontSize: '12px', color: '#888888', letterSpacing: '2px', marginBottom: '16px' }}>OPEN POSITIONS</div>
-            {[['BTC/USDT', '+$1,240', '#22c55e'], ['ETH/USDT', '+$380', '#22c55e'], ['SOL/USDT', '-$120', '#ef4444']].map(([sym, pnl, col], i) => (
-              <div key={sym} style={{ padding: '12px 0', borderBottom: '1px solid #1E1E1E' }}>
-                <div style={{ fontFamily: 'JetBrains Mono', fontSize: '13px', color: '#FFFFFF', marginBottom: '4px' }}>{sym}</div>
-                <div style={{ fontFamily: 'JetBrains Mono', fontSize: '13px', color: col }}>{pnl}</div>
+          <div style={{ borderLeft:'1px solid #E5E5E5',padding:'24px' }}>
+            <div style={{ fontFamily:'var(--font-mono)',fontSize:'10px',color:'#888',letterSpacing:'2px',marginBottom:'16px' }}>POSITIONS</div>
+            {[['BTC/USDT','+$1,240'],['ETH/USDT','+$380'],['SOL/USDT','-$120']].map(([s,p],i)=>(
+              <div key={s} style={{ padding:'12px 0',borderBottom:'1px solid #F0F0F0' }}>
+                <div style={{ fontFamily:'var(--font-mono)',fontSize:'13px',color:'#000',marginBottom:'4px' }}>{s}</div>
+                <div style={{ fontFamily:'var(--font-mono)',fontSize:'13px',color:i<2?'#000':'#888' }}>{p}</div>
               </div>
             ))}
           </div>
-        </motion.div>
-        <motion.div variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'} style={{ textAlign: 'center', marginTop: '48px' }}>
-          <a href="#waitlist" style={{ background: '#C9A84C', color: '#080808', padding: '14px 40px', fontFamily: 'Space Grotesk', fontWeight: 600, textDecoration: 'none', borderRadius: '2px', fontSize: '15px' }}>Join Waitlist →</a>
         </motion.div>
       </div>
     </section>

@@ -1,14 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --black: #080808; --black-soft: #111111; --black-card: #141414; --black-border: #1E1E1E;
-  --grey-dark: #2A2A2A; --grey-mid: #555555; --grey-light: #888888; --grey-muted: #AAAAAA;
-  --white: #FFFFFF; --gold: #C9A84C; --gold-light: #E8C96A; --gold-bg: rgba(201,168,76,0.06);
-}
-
-html { scroll-behavior: smooth; }
-body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-
-@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#FFFFFF;color:#111111;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}

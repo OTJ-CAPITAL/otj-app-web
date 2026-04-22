@@ -7,29 +7,26 @@ import { fadeUp, staggerContainer } from '@/lib/animations'
 export default function Waitlist() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
-
+  const { ref, inView } = useInView({ triggerOnce: true, fallbackInView: true })
   return (
-    <section id="waitlist" ref={ref} style={{ background: '#0D0D0D', padding: '120px 32px' }}>
-      <motion.div variants={staggerContainer} initial="hidden" animate={inView ? 'visible' : 'hidden'} style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-        <motion.h2 variants={fadeUp} style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: 'clamp(36px, 5vw, 52px)', color: '#FFFFFF', marginBottom: '24px' }}>Get access first.</motion.h2>
-        <motion.p variants={fadeUp} style={{ fontFamily: 'Inter', fontSize: '18px', color: '#888888', marginBottom: '48px', lineHeight: 1.7 }}>
-          OTJ App launches Q3 2026. Early access reserved for founding investors and Fellowship members.
-        </motion.p>
+    <section id="waitlist" ref={ref} style={{ padding:'120px 32px',background:'#000' }}>
+      <motion.div variants={staggerContainer} initial="hidden" animate={inView?'visible':'hidden'} style={{ maxWidth:'560px',margin:'0 auto' }}>
+        <motion.div variants={fadeUp} style={{ fontFamily:'var(--font-mono)',fontSize:'11px',letterSpacing:'2px',color:'#555',marginBottom:'32px' }}>EARLY ACCESS</motion.div>
+        <motion.h2 variants={fadeUp} style={{ fontFamily:'var(--font-sg)',fontWeight:800,fontSize:'clamp(32px,5vw,56px)',color:'#fff',letterSpacing:'-1.5px',lineHeight:1.1,marginBottom:'24px' }}>Get in before<br />it opens.</motion.h2>
+        <motion.p variants={fadeUp} style={{ fontSize:'17px',color:'#888',lineHeight:1.7,marginBottom:'40px' }}>OTJ App launches Q3 2026. Early access goes to founding investors and Fellowship members first.</motion.p>
         {!submitted ? (
-          <motion.div variants={fadeUp} style={{ display: 'flex', gap: '0', marginBottom: '16px' }}>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="your@email.com"
-              style={{ flex: 1, background: 'transparent', border: '1px solid #2A2A2A', borderRight: 'none', padding: '14px 20px', color: '#FFFFFF', fontFamily: 'Inter', fontSize: '15px', outline: 'none', borderRadius: '2px 0 0 2px' }}
-              onFocus={e => (e.currentTarget.style.borderColor = '#C9A84C')}
-              onBlur={e => (e.currentTarget.style.borderColor = '#2A2A2A')} />
-            <button onClick={() => setSubmitted(true)} style={{ background: '#C9A84C', color: '#080808', padding: '14px 28px', border: 'none', fontFamily: 'Space Grotesk', fontWeight: 600, fontSize: '15px', cursor: 'pointer', borderRadius: '0 2px 2px 0' }}>Reserve →</button>
+          <motion.div variants={fadeUp} style={{ display:'flex' }}>
+            <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com"
+              style={{ flex:1,background:'transparent',border:'1px solid #333',borderRight:'none',padding:'14px 20px',color:'#fff',fontFamily:'var(--font-inter)',fontSize:'15px',outline:'none' }}
+              onFocus={e=>(e.currentTarget.style.borderColor='#fff')} onBlur={e=>(e.currentTarget.style.borderColor='#333')} />
+            <button onClick={()=>setSubmitted(true)} style={{ background:'#fff',color:'#000',padding:'14px 28px',border:'none',fontFamily:'var(--font-sg)',fontWeight:700,fontSize:'15px',cursor:'pointer' }}>Reserve →</button>
           </motion.div>
         ) : (
-          <motion.div variants={fadeUp} style={{ padding: '20px', background: 'rgba(201,168,76,0.1)', border: '1px solid #C9A84C', borderRadius: '4px', marginBottom: '16px' }}>
-            <span style={{ fontFamily: 'Space Grotesk', color: '#C9A84C' }}>You are on the list. We will be in touch.</span>
+          <motion.div variants={fadeUp} style={{ padding:'20px',border:'1px solid #fff' }}>
+            <span style={{ fontFamily:'var(--font-sg)',color:'#fff',fontSize:'15px' }}>You are on the list. We will reach out.</span>
           </motion.div>
         )}
-        <motion.p variants={fadeUp} style={{ fontFamily: 'Inter', fontSize: '13px', color: '#555555' }}>No spam. One email when access opens.</motion.p>
+        <motion.p variants={fadeUp} style={{ fontFamily:'var(--font-inter)',fontSize:'12px',color:'#444',marginTop:'16px' }}>No spam. One email when access opens.</motion.p>
       </motion.div>
     </section>
   )

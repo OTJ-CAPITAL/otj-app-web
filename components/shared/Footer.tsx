@@ -1,26 +1,24 @@
 'use client'
 export default function Footer() {
   return (
-    <footer style={{ background: '#080808', borderTop: '1px solid #1E1E1E', padding: '64px 32px 32px' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px' }}>
+    <footer style={{ borderTop:'1px solid #E5E5E5',padding:'48px 32px' }}>
+      <div style={{ maxWidth:'1280px',margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'32px' }}>
         <div>
-          <div style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '18px', color: '#FFFFFF', marginBottom: '12px' }}>OTJ <span style={{ color: '#C9A84C' }}>APP</span></div>
-          <div style={{ color: '#555555', fontSize: '14px', lineHeight: 1.8 }}>See everything. In real time.</div>
+          <div style={{ fontFamily:'var(--font-sg)',fontWeight:700,fontSize:'14px',marginBottom:'12px' }}>OTJ App</div>
+          <p style={{ fontSize:'13px',color:'#888',lineHeight:1.6 }}>The investor dashboard for<br />OTJ Capital.</p>
         </div>
         <div>
-          <div style={{ color: '#888888', fontSize: '11px', letterSpacing: '3px', marginBottom: '16px', fontFamily: 'Space Grotesk' }}>ECOSYSTEM</div>
-          {[['OTJ Holdings', 'https://otjholdings.com'], ['OTJ Capital', 'https://otjcapital.com'], ['OTJ Fellowship', 'https://otjfellowship.com'], ['OTJ App', 'https://otj.app']].map(([n, u]) => (
-            <a key={n} href={u} style={{ display: 'block', color: '#555555', fontSize: '14px', textDecoration: 'none', marginBottom: '8px' }} onMouseEnter={e => (e.currentTarget.style.color = '#C9A84C')} onMouseLeave={e => (e.currentTarget.style.color = '#555555')}>{n} →</a>
+          <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'12px',letterSpacing:'1px',color:'#888',marginBottom:'12px' }}>ECOSYSTEM</div>
+          {[['OTJ Capital','https://otjcapital.com'],['OTJ Holdings','https://otjholdings.com'],['OTJ Fellowship','https://otjfellowship.com']].map(([l,h])=>(
+            <a key={l} href={h} style={{ display:'block',fontSize:'13px',color:'#555',marginBottom:'8px' }} onMouseEnter={e=>(e.currentTarget.style.color='#000')} onMouseLeave={e=>(e.currentTarget.style.color='#555')}>{l}</a>
           ))}
         </div>
         <div>
-          <div style={{ color: '#888888', fontSize: '11px', letterSpacing: '3px', marginBottom: '16px', fontFamily: 'Space Grotesk' }}>CONTACT</div>
-          <a href="mailto:hello@otjholdings.com" style={{ color: '#555555', fontSize: '14px', textDecoration: 'none' }}>hello@otjholdings.com</a>
+          <div style={{ fontFamily:'var(--font-sg)',fontWeight:600,fontSize:'12px',letterSpacing:'1px',color:'#888',marginBottom:'12px' }}>CONTACT</div>
+          <a href="mailto:app@otjcapital.com" style={{ fontSize:'13px',color:'#555' }}>app@otjcapital.com</a>
         </div>
       </div>
-      <div style={{ maxWidth: '1280px', margin: '48px auto 0', paddingTop: '24px', borderTop: '1px solid #1E1E1E' }}>
-        <span style={{ color: '#555555', fontSize: '13px' }}>© 2026 OTJ Holdings. All rights reserved.</span>
-      </div>
+      <div style={{ maxWidth:'1280px',margin:'24px auto 0',paddingTop:'24px',borderTop:'1px solid #F0F0F0',fontSize:'12px',color:'#BBB' }}>© 2026 OTJ Capital.</div>
     </footer>
   )
 }
